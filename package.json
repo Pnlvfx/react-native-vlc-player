@@ -34,7 +34,7 @@
     "README.md",
     "ios",
     "android",
-    "react-native-vlc-media-player.podspec",
+    "react-native-vlc-player.podspec",
     "app.plugin.js"
   ],
   "license": "MIT",
