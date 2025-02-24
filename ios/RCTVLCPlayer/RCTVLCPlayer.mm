@@ -17,7 +17,7 @@ static NSString *const readyForDisplayKeyPath = @"readyForDisplay";
 static NSString *const playbackRate = @"rate";
 
 
-#if !defined(DEBUG) || !(TARGET_IPHONE_SIMULATOR)
+#if !defined(DEBUG) && !(TARGET_IPHONE_SIMULATOR)
     #define NSLog(...)
 #endif
 
