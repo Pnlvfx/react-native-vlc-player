@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "react-native-vlc-player"
-  s.version      = "1.0.80"
+  s.version      = "1.0.81"
   s.summary      = "VLC player"
   s.requires_arc = true
   s.author       = { 'simone.gauli' => 'simonegauli@gmail.com' }
