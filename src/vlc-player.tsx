@@ -51,9 +51,7 @@ export const VLCPlayer = ({
   const playerRef = useRef<Component<NativePlayerProps, {}, any> & NativeMethods>(null);
 
   const setNativeProps = useCallback((props: Partial<NativePlayerCommands>) => {
-    if (playerRef.current) {
-      playerRef.current.setNativeProps(props);
-    }
+    playerRef.current?.setNativeProps(props);
   }, []);
 
   useImperativeHandle(
