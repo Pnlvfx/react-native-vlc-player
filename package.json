@@ -23,6 +23,7 @@
   ],
   "main": "dist/vlc-player.js",
   "types": "dist/vlc-player.d.ts",
+  "module": "dist/vlc-player.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist && tsc",
