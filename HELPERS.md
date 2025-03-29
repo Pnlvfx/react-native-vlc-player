@@ -5,7 +5,7 @@ git checkout master
 git merge #branch-name
 
 // delete
-git branch -d #branch-name
+git branch -D #branch-name
 git push origin --delete #branch-name
 
 pod search MobileVLCKit --simple
