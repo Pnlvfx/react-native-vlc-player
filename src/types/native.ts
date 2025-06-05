@@ -15,7 +15,6 @@ export interface NativePlayerCommands {
   /** A value from 0 to 1 relative to the video duration. */
   seek: number;
   resume: boolean;
-  snapshotPath: string;
   autoAspectRatio: boolean;
   videoAspectRatio: VideoAspectRatio;
   paused: boolean;

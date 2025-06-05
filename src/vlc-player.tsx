@@ -10,10 +10,18 @@ import type {
   AndroidVideoPausedEvent,
   AndroidVideoPlayingEvent,
   AndroidVideoProgressEvent,
+  AndroidVideoSnapshotEvent,
   AndroidVideoStoppedEvent,
 } from './types/android';
 import type { VideoTargetEvent } from './types/shared';
-import type { IosRecordingStateEvent, IosVideoEndedEvent, IosVideoLoadEvent, IosVideoPlayingEvent, IosVideoProgressEvent } from './types/ios';
+import type {
+  IosRecordingStateEvent,
+  IosVideoEndedEvent,
+  IosVideoLoadEvent,
+  IosVideoPlayingEvent,
+  IosVideoProgressEvent,
+  IosVideoSnapshotEvent,
+} from './types/ios';
 import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
 import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
@@ -33,6 +41,7 @@ export const VLCPlayer = ({
   onPlaying,
   onProgress,
   onStopped,
+  onSnapshot,
   audioTrack,
   autoAspectRatio,
   muted,
@@ -66,9 +75,6 @@ export const VLCPlayer = ({
       resume: (isResume) => {
         setNativeProps({ resume: isResume });
       },
-      snapshot: (path) => {
-        setNativeProps({ snapshotPath: path });
-      },
       autoAspectRatio: (isAuto) => {
         setNativeProps({ autoAspectRatio: isAuto });
       },
@@ -90,6 +96,12 @@ export const VLCPlayer = ({
           UIManager.getViewManagerConfig('RCTVLCPlayer').Commands.stopRecording,
           [],
         );
+      },
+      snapshot: (path) => {
+        /** @ts-expect-error Idk how to declare this types. */
+        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), UIManager.getViewManagerConfig('RCTVLCPlayer').Commands.snapshot, [
+          path,
+        ]);
       },
     }),
     [setNativeProps],
@@ -165,6 +177,12 @@ export const VLCPlayer = ({
     }
   };
 
+  const onSnapshotHandler = (event: NativeSyntheticEvent<AndroidVideoSnapshotEvent | IosVideoSnapshotEvent>) => {
+    if (event.nativeEvent.success && onSnapshot) {
+      onSnapshot(event.nativeEvent);
+    }
+  };
+
   const resolvedAssetSource = useMemo(() => resolveAssetSource(source, autoplay), [source, autoplay]);
 
   return (
@@ -186,6 +204,7 @@ export const VLCPlayer = ({
       onVideoPlaying={onPlayingHandler}
       onVideoLoad={onLoadHandler}
       onRecordingState={onRecordingState}
+      onSnapshot={onSnapshotHandler}
       audioTrack={audioTrack}
       autoAspectRatio={autoAspectRatio}
       muted={muted}

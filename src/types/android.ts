@@ -35,7 +35,6 @@ export interface VLCPlayerAndroidEvents {
   onVideoProgress: (event: NativeSyntheticEvent<AndroidVideoProgressEvent>) => void;
   onVideoSeek: (event: NativeSyntheticEvent<AndroidVideoSeekEvent>) => void;
   onVideoEnd: (event: NativeSyntheticEvent<AndroidVideoEndEvent>) => void;
-  onSnapshot: (event: NativeSyntheticEvent<AndroidVideoSnapshotEvent>) => void;
   onVideoPlaying: (event: NativeSyntheticEvent<AndroidVideoPlayingEvent>) => void;
   onVideoStateChange: (event: NativeSyntheticEvent<AndroidVideoStateChangeEvent | AndroidLayoutVideoStateChangeEvent>) => void;
   onVideoPaused: (event: NativeSyntheticEvent<AndroidVideoPausedEvent>) => void;
@@ -44,6 +43,7 @@ export interface VLCPlayerAndroidEvents {
   onVideoStopped: (event: NativeSyntheticEvent<AndroidVideoStoppedEvent>) => void;
   onVideoLoad: (event: NativeSyntheticEvent<AndroidVideoLoadEvent>) => void;
   onRecordingState: (event: NativeSyntheticEvent<AndroidRecordingStateEvent>) => void;
+  onSnapshot: (event: NativeSyntheticEvent<AndroidVideoSnapshotEvent>) => void;
 }
 
 export interface AndroidVideoStoppedEvent extends VideoTargetEvent {

@@ -1,6 +1,8 @@
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { RefObject } from 'react';
 import type { VideoAspectRatio } from './native';
+import type { IosVideoSnapshotEvent } from './ios';
+import type { AndroidVideoSnapshotEvent } from './android';
 
 /**
  * Video resize mode
@@ -169,6 +171,12 @@ export interface VLCPlayerCallbackProps {
    * @param recordingPath - Full path to the recording file
    */
   onRecordingCreated?: (recordingPath: string) => void;
+  /**
+   * Called when a new snapshot is created
+   *
+   * @param event - Event properties
+   */
+  onSnapshot?: (event: AndroidVideoSnapshotEvent | IosVideoSnapshotEvent) => void;
 }
 
 export type VLCPlayerProps = VLCPlayerCallbackProps & {
@@ -268,9 +276,9 @@ export type VLCPlayerProps = VLCPlayerCallbackProps & {
 export interface VLCPlayerCommands {
   seek: (pos: number) => void;
   resume: (isResume: boolean) => void;
-  snapshot: (path: string) => void;
   autoAspectRatio: (isAuto: boolean) => void;
   changeVideoAspectRatio: (ratio: VideoAspectRatio) => void;
   startRecording: (path: string) => void;
   stopRecording: () => void;
+  snapshot: (path: string) => void;
 }

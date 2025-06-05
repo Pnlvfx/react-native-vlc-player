@@ -21,11 +21,13 @@
 @property (nonatomic, copy) RCTBubblingEventBlock onVideoLoadStart;
 @property (nonatomic, copy) RCTBubblingEventBlock onVideoLoad;
 @property (nonatomic, copy) RCTBubblingEventBlock onRecordingState;
+@property (nonatomic, copy) RCTBubblingEventBlock onSnapshot;
 
 - (instancetype)initWithEventDispatcher:(id<RCTEventDispatcherProtocol>)eventDispatcher NS_DESIGNATED_INITIALIZER;
 
 - (void)setMuted:(BOOL)value;
 - (void)startRecording:(NSString*)path;
 - (void)stopRecording;
+- (void)snapshot:(NSString*)path;
 
 @end

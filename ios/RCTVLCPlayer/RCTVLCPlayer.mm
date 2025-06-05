@@ -116,8 +116,8 @@ static NSString *const playbackRate = @"rate";
     // [bavv edit end]
     
     _player.media = [VLCMedia mediaWithURL:uri];
-
-     if (_autoplay)
+    
+    if (_autoplay)
         [_player play];
     
     [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
@@ -386,6 +386,30 @@ static NSString *const playbackRate = @"rate";
 - (void)stopRecording
 {
     [_player stopRecording];
+}
+
+- (void)snapshot:(NSString*)path
+{
+    @try {
+        if (_player) {
+            [_player saveVideoSnapshotAt:path withWidth:_player.videoSize.width andHeight:_player.videoSize.height];
+            self.onSnapshot(@{
+                @"success": @YES,
+                @"path": path,
+                @"error": [NSNull null],
+                @"target": self.reactTag
+            });
+        } else {
+            @throw [NSException exceptionWithName:@"PlayerNotInitialized" reason:@"Player is not initialized" userInfo:nil];
+        }
+    } @catch (NSException *e) {
+        NSLog(@"Error in snapshot: %@", e);
+        self.onSnapshot(@{
+            @"success": @NO,
+            @"error": [e description],
+            @"target": self.reactTag
+        });
+    }
 }
 
 
