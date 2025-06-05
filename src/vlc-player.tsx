@@ -163,9 +163,11 @@ export const VLCPlayer = ({
 
   const onRecordingState = (event: NativeSyntheticEvent<AndroidRecordingStateEvent | IosRecordingStateEvent>) => {
     if (lastRecording.current === event.nativeEvent.recordPath) return;
-    lastRecording.current = event.nativeEvent.recordPath;
-    if (lastRecording.current && onRecordingCreated) {
-      onRecordingCreated(lastRecording.current);
+    if (!event.nativeEvent.isRecording && event.nativeEvent.recordPath) {
+      lastRecording.current = event.nativeEvent.recordPath;
+      if (onRecordingCreated) {
+        onRecordingCreated(lastRecording.current);
+      }
     }
   };
 

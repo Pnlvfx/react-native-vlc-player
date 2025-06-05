@@ -75,5 +75,6 @@ export interface IosVideoLoadEvent extends VideoTargetEvent {
 }
 
 export interface IosRecordingStateEvent extends VideoTargetEvent {
-  readonly recordPath: string;
+  readonly isRecording: boolean;
+  readonly recordPath?: string;
 }

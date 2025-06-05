@@ -141,5 +141,5 @@ export interface AndroidVideoLoadEvent extends VideoTargetEvent {
 
 export interface AndroidRecordingStateEvent extends VideoTargetEvent {
   readonly isRecording: boolean;
-  readonly recordPath: string;
+  readonly recordPath?: string;
 }
