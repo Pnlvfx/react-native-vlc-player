@@ -276,9 +276,27 @@ export type VLCPlayerProps = VLCPlayerCallbackProps & {
 
 // Imperative handle interface
 export interface VLCPlayerCommands {
+  /**
+   * Seek to the given position
+   *
+   * @param pos Position to seek to (as a percentage of the full duration)
+   */
   seek: (pos: number) => void;
+  /**
+   * Resume playback
+   */
   resume: (isResume: boolean) => void;
-  autoAspectRatio: (isAuto: boolean) => void;
+  /**
+   * Change auto aspect ratio setting
+   *
+   * @param useAuto Whether or not to use auto aspect ratio
+   */
+  autoAspectRatio: (useAuto: boolean) => void;
+  /**
+   * Update video aspect ratio e.g. `"16:9"`
+   *
+   * @param ratio Aspect ratio to use
+   */
   changeVideoAspectRatio: (ratio: VideoAspectRatio) => void;
   startRecording: (path: string) => void;
   stopRecording: () => void;
