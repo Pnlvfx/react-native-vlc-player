@@ -13,7 +13,7 @@ import type {
 } from './types/android';
 import type { VideoTargetEvent } from './types/shared';
 import type { IosVideoEndedEvent, IosVideoLoadEvent, IosVideoPlayingEvent, IosVideoProgressEvent } from './types/ios';
-import { requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
+import { requireNativeComponent, StyleSheet, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
 import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 
