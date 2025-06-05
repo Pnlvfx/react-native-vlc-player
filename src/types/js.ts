@@ -162,6 +162,13 @@ export interface VLCPlayerCallbackProps {
    * @param event - Event properties
    */
   onLoad?: (event: VideoInfo) => void;
+
+  /**
+   * Called when a new recording is created
+   *
+   * @param recordingPath - Full path to the recording file
+   */
+  onRecordingCreated?: (recordingPath: string) => void;
 }
 
 export type VLCPlayerProps = VLCPlayerCallbackProps & {
@@ -264,4 +271,6 @@ export interface VLCPlayerCommands {
   snapshot: (path: string) => void;
   autoAspectRatio: (isAuto: boolean) => void;
   changeVideoAspectRatio: (ratio: VideoAspectRatio) => void;
+  startRecording: (path: string) => void;
+  stopRecording: () => void;
 }

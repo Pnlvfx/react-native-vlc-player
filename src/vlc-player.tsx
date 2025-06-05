@@ -1,6 +1,7 @@
 import type { VLCPlayerProps } from './types/js';
 import type { NativePlayerCommands, NativePlayerProps } from './types/native';
 import type {
+  AndroidRecordingStateEvent,
   AndroidVideoBufferingEvent,
   AndroidVideoEndEvent,
   AndroidVideoErrorEvent,
@@ -12,8 +13,8 @@ import type {
   AndroidVideoStoppedEvent,
 } from './types/android';
 import type { VideoTargetEvent } from './types/shared';
-import type { IosVideoEndedEvent, IosVideoLoadEvent, IosVideoPlayingEvent, IosVideoProgressEvent } from './types/ios';
-import { requireNativeComponent, StyleSheet, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
+import type { IosRecordingStateEvent, IosVideoEndedEvent, IosVideoLoadEvent, IosVideoPlayingEvent, IosVideoProgressEvent } from './types/ios';
+import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
 import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 
@@ -47,8 +48,10 @@ export const VLCPlayer = ({
   textTrack,
   videoAspectRatio,
   volume,
+  onRecordingCreated,
 }: VLCPlayerProps) => {
   const playerRef = useRef<Component<NativePlayerProps, {}, any> & NativeMethods>(null);
+  const lastRecording = useRef<string>(undefined);
 
   const setNativeProps = useCallback((props: Partial<NativePlayerCommands>) => {
     playerRef.current?.setNativeProps(props);
@@ -71,6 +74,22 @@ export const VLCPlayer = ({
       },
       changeVideoAspectRatio: (ratio) => {
         setNativeProps({ videoAspectRatio: ratio });
+      },
+      startRecording: (path: string) => {
+        UIManager.dispatchViewManagerCommand(
+          findNodeHandle(playerRef.current),
+          /** @ts-expect-error Idk how to declare this types. */
+          UIManager.getViewManagerConfig('RCTVLCPlayer').Commands.startRecording,
+          [path],
+        );
+      },
+      stopRecording: () => {
+        UIManager.dispatchViewManagerCommand(
+          findNodeHandle(playerRef.current),
+          /** @ts-expect-error Idk how to declare this types. */
+          UIManager.getViewManagerConfig('RCTVLCPlayer').Commands.stopRecording,
+          [],
+        );
       },
     }),
     [setNativeProps],
@@ -138,6 +157,14 @@ export const VLCPlayer = ({
     }
   };
 
+  const onRecordingState = (event: NativeSyntheticEvent<AndroidRecordingStateEvent | IosRecordingStateEvent>) => {
+    if (lastRecording.current === event.nativeEvent.recordPath) return;
+    lastRecording.current = event.nativeEvent.recordPath;
+    if (lastRecording.current && onRecordingCreated) {
+      onRecordingCreated(lastRecording.current);
+    }
+  };
+
   const resolvedAssetSource = useMemo(() => resolveAssetSource(source, autoplay), [source, autoplay]);
 
   return (
@@ -158,6 +185,7 @@ export const VLCPlayer = ({
       onVideoPaused={onPausedHandler}
       onVideoPlaying={onPlayingHandler}
       onVideoLoad={onLoadHandler}
+      onRecordingState={onRecordingState}
       audioTrack={audioTrack}
       autoAspectRatio={autoAspectRatio}
       muted={muted}

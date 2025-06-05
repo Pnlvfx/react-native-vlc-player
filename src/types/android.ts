@@ -43,6 +43,7 @@ export interface VLCPlayerAndroidEvents {
   onVideoError: (event: NativeSyntheticEvent<AndroidVideoErrorEvent>) => void;
   onVideoStopped: (event: NativeSyntheticEvent<AndroidVideoStoppedEvent>) => void;
   onVideoLoad: (event: NativeSyntheticEvent<AndroidVideoLoadEvent>) => void;
+  onRecordingState: (event: NativeSyntheticEvent<AndroidRecordingStateEvent>) => void;
 }
 
 export interface AndroidVideoStoppedEvent extends VideoTargetEvent {
@@ -140,4 +141,9 @@ export interface AndroidVideoLoadEvent extends VideoTargetEvent {
 
 export interface AndroidVideoSnapshotEvent extends VideoTargetEvent {
   isSuccess: number;
+}
+
+export interface AndroidRecordingStateEvent extends VideoTargetEvent {
+  readonly isRecording: boolean;
+  readonly recordPath: string;
 }

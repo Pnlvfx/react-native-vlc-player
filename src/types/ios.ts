@@ -35,6 +35,7 @@ export interface VLCPlayerIosEvents {
   onVideoOpen: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
   onVideoLoadStart: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
   onVideoLoad: (event: NativeSyntheticEvent<IosVideoLoadEvent>) => void;
+  onRecordingState: (event: NativeSyntheticEvent<IosRecordingStateEvent>) => void;
 }
 
 export interface IosVideoProgressEvent extends VideoTargetEvent {
@@ -70,4 +71,8 @@ export interface IosVideoLoadEvent extends VideoTargetEvent {
     id: number;
     name: string;
   }[];
+}
+
+export interface IosRecordingStateEvent extends VideoTargetEvent {
+  readonly recordPath: string;
 }
