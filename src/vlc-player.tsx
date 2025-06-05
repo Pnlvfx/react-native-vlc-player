@@ -175,7 +175,7 @@ export const VLCPlayer = ({
     }
   };
 
-  const resolvedAssetSource = useMemo(() => resolveAssetSource(source, autoplay), [source, autoplay]);
+  const resolvedAssetSource = useMemo(() => resolveAssetSource({ input: source, autoplay, repeat }), [source, autoplay, repeat]);
 
   return (
     /** @ts-expect-error We will add the missing properties later on. */
