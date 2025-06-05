@@ -10,18 +10,10 @@ import type {
   AndroidVideoPausedEvent,
   AndroidVideoPlayingEvent,
   AndroidVideoProgressEvent,
-  AndroidVideoSnapshotEvent,
   AndroidVideoStoppedEvent,
 } from './types/android';
-import type { VideoTargetEvent } from './types/shared';
-import type {
-  IosRecordingStateEvent,
-  IosVideoEndedEvent,
-  IosVideoLoadEvent,
-  IosVideoPlayingEvent,
-  IosVideoProgressEvent,
-  IosVideoSnapshotEvent,
-} from './types/ios';
+import type { VideoSnapshotEvent, VideoTargetEvent } from './types/shared';
+import type { IosRecordingStateEvent, IosVideoEndedEvent, IosVideoLoadEvent, IosVideoPlayingEvent, IosVideoProgressEvent } from './types/ios';
 import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
 import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
@@ -177,7 +169,7 @@ export const VLCPlayer = ({
     }
   };
 
-  const onSnapshotHandler = (event: NativeSyntheticEvent<AndroidVideoSnapshotEvent | IosVideoSnapshotEvent>) => {
+  const onSnapshotHandler = (event: NativeSyntheticEvent<VideoSnapshotEvent>) => {
     if (event.nativeEvent.success && onSnapshot) {
       onSnapshot(event.nativeEvent);
     }

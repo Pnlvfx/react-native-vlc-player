@@ -1,6 +1,6 @@
 import type { NativeSyntheticEvent } from 'react-native';
 import type { VideoAspectRatio } from './native';
-import type { VideoTargetEvent } from './shared';
+import type { VideoSnapshotEvent, VideoTargetEvent } from './shared';
 
 export interface VLCPlayerAndroidProps extends VLCPlayerAndroidEvents {
   source: VLCPlayerAndroidSource;
@@ -43,7 +43,7 @@ export interface VLCPlayerAndroidEvents {
   onVideoStopped: (event: NativeSyntheticEvent<AndroidVideoStoppedEvent>) => void;
   onVideoLoad: (event: NativeSyntheticEvent<AndroidVideoLoadEvent>) => void;
   onRecordingState: (event: NativeSyntheticEvent<AndroidRecordingStateEvent>) => void;
-  onSnapshot: (event: NativeSyntheticEvent<AndroidVideoSnapshotEvent>) => void;
+  onSnapshot: (event: NativeSyntheticEvent<VideoSnapshotEvent>) => void;
 }
 
 export interface AndroidVideoStoppedEvent extends VideoTargetEvent {
@@ -137,10 +137,6 @@ export interface AndroidVideoLoadEvent extends VideoTargetEvent {
     width: number;
     height: number;
   };
-}
-
-export interface AndroidVideoSnapshotEvent extends VideoTargetEvent {
-  isSuccess: number;
 }
 
 export interface AndroidRecordingStateEvent extends VideoTargetEvent {

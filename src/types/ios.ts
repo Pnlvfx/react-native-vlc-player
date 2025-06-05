@@ -1,6 +1,6 @@
 import type { NativeSyntheticEvent } from 'react-native';
 import type { VideoAspectRatio } from './native';
-import type { VideoTargetEvent } from './shared';
+import type { VideoSnapshotEvent, VideoTargetEvent } from './shared';
 
 export interface VLCPlayerIosProps extends VLCPlayerIosEvents {
   source: VLCPlayerIosSource;
@@ -36,7 +36,7 @@ export interface VLCPlayerIosEvents {
   onVideoLoadStart: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
   onVideoLoad: (event: NativeSyntheticEvent<IosVideoLoadEvent>) => void;
   onRecordingState: (event: NativeSyntheticEvent<IosRecordingStateEvent>) => void;
-  onSnapshot: (event: NativeSyntheticEvent<IosVideoSnapshotEvent>) => void;
+  onSnapshot: (event: NativeSyntheticEvent<VideoSnapshotEvent>) => void;
 }
 
 export interface IosVideoProgressEvent extends VideoTargetEvent {
@@ -76,10 +76,4 @@ export interface IosVideoLoadEvent extends VideoTargetEvent {
 
 export interface IosRecordingStateEvent extends VideoTargetEvent {
   readonly recordPath: string;
-}
-
-export interface IosVideoSnapshotEvent extends VideoTargetEvent {
-  success: boolean;
-  path?: string;
-  error?: string;
 }

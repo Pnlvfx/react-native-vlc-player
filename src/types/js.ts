@@ -1,8 +1,7 @@
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { RefObject } from 'react';
 import type { VideoAspectRatio } from './native';
-import type { IosVideoSnapshotEvent } from './ios';
-import type { AndroidVideoSnapshotEvent } from './android';
+import type { VideoSnapshotEvent } from './shared';
 
 /**
  * Video resize mode
@@ -176,7 +175,7 @@ export interface VLCPlayerCallbackProps {
    *
    * @param event - Event properties
    */
-  onSnapshot?: (event: AndroidVideoSnapshotEvent | IosVideoSnapshotEvent) => void;
+  onSnapshot?: (event: VideoSnapshotEvent) => void;
 }
 
 export type VLCPlayerProps = VLCPlayerCallbackProps & {
