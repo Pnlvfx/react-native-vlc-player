@@ -65,11 +65,13 @@ tasks.whenTaskAdded((tas -> {
 ```
 
 ### Explanation
+
 `react-native` and `LibVLC` both import `libc++_shared.so`, but we cannot use `packagingOptions.pickFirst` to handle this case, because `libvlc-all:3.6.0-eap5` will crash when using `libc++_shared.so`, so we have to use `libc++_shared.so` from `LibVLC`.
 
 Reference: https://stackoverflow.com/questions/74258902/how-to-define-which-so-file-to-use-in-gradle-packaging-options
 
 ### Also to consider
+
 `libvlc-all:3.2.6` has a bug where subtitles won't display on Android 12 and 13, so we have to upgrade `LibVLC` to support it.
 
 Reference: https://code.videolan.org/videolan/vlc-android/-/issues/2252
@@ -109,14 +111,14 @@ To enable just insert the `react-native-vlc-media-player` plugin to the "plugins
         "expo-video",
         {
           "ios": {
-              "includeVLCKit": false
+            "includeVLCKit": false
           },
           "android": {
-              "legacyJetifier": false
+            "legacyJetifier": false
           }
         }
       ]
-    ],
+    ]
   }
 }
 ```
@@ -180,16 +182,26 @@ import Orientation from 'react-native-orientation';
 
 Callback props take a function that gets fired on various player events:
 
-| Prop           | Description                                                                                                                                                                                                          |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onPlaying`    | Called when media starts playing returns eg `{target: 9, duration: 99750, seekable: true}`                                                                                                                           |
-| `onProgress`   | Callback containing `position` as a fraction, and `duration`, `currentTime` and `remainingTime` in seconds <br />&nbsp; ◦ &nbsp;eg `{  duration: 99750, position: 0.30, currentTime: 30154, remainingTime: -69594 }` |
-| `onPaused`     | Called when media is paused                                                                                                                                                                                          |
-| `onStopped `   | Called when media is stoped                                                                                                                                                                                          |
-| `onBuffering ` | Called when media is buffering                                                                                                                                                                                       |
-| `onEnded`      | Called when media playing ends                                                                                                                                                                                       |
-| `onError`      | Called when an error occurs whilst attempting to play media                                                                                                                                                          |
-| `onLoad`       | Called when video info is loaded, Callback containing VideoInfo                                                                                                                                                      |
+| Prop                 | Description                                                                                                                                                                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onPlaying`          | Called when media starts playing returns eg `{target: 9, duration: 99750, seekable: true}`                                                                                                                           |
+| `onProgress`         | Callback containing `position` as a fraction, and `duration`, `currentTime` and `remainingTime` in seconds <br />&nbsp; ◦ &nbsp;eg `{  duration: 99750, position: 0.30, currentTime: 30154, remainingTime: -69594 }` |
+| `onPaused`           | Called when media is paused                                                                                                                                                                                          |
+| `onStopped `         | Called when media is stoped                                                                                                                                                                                          |
+| `onBuffering `       | Called when media is buffering                                                                                                                                                                                       |
+| `onEnded`            | Called when media playing ends                                                                                                                                                                                       |
+| `onError`            | Called when an error occurs whilst attempting to play media                                                                                                                                                          |
+| `onLoad`             | Called when video info is loaded, Callback containing VideoInfo                                                                                                                                                      |
+| `onRecordingCreated` | Called when a new recording is created as the result of `startRecording()` `stopRecording()`                                                                                                                         |
+
+#### Methods props
+
+Methods available on the VLC player ref
+
+| Prop                                | Description                                                                                                       |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `startRecording(directory: string)` | Start recording the current video into the given directory                                                        |
+| `stopRecording()`                   | Stop recording the current video. The final recording file can be obtained from the `onRecordingCreated` callback |
 
 VideoInfo example:
 
