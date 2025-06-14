@@ -169,7 +169,7 @@ public class ReactVlcPlayerViewManager extends SimpleViewManager<ReactVlcPlayerV
         return MapBuilder.of(
             "startRecording", 1,
             "stopRecording", 2,
-             "snapshot", 3
+            "snapshot", 3
         );
     }
 

@@ -27,9 +27,9 @@ import org.videolan.libvlc.interfaces.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+
 import java.io.File;
 import java.io.FileOutputStream;
-
 import java.util.ArrayList;
 
 
@@ -708,7 +708,6 @@ class ReactVlcPlayerView extends TextureView implements
         if(mMediaPlayer == null) return;
         mMediaPlayer.record(null);
     }
-
 
     public void cleanUpResources() {
         if (surfaceView != null) {

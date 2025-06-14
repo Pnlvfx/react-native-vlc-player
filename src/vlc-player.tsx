@@ -20,6 +20,8 @@ import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 're
 
 const RCTVLCPlayer = requireNativeComponent<NativePlayerProps>('RCTVLCPlayer');
 
+// TODO check all ios and android file again (android should be 1-1 change)
+
 export const VLCPlayer = ({
   source,
   style,
