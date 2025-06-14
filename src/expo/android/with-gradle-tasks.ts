@@ -46,23 +46,21 @@ const resolveAppGradleString = (options?: ExpoGradleTasksOptions) => {
 };
 
 const withGradleTasks = (config: ExpoConfig, options?: ExpoGradleTasksOptions) => {
-  if (!options || !options.android) {
-    return config;
-  }
+  if (!options?.android) return config;
 
-  return withAppBuildGradle(config, (config) => {
+  return withAppBuildGradle(config, gradleConfig => {
     const newCode = generateCode.mergeContents({
       tag: 'withVlcMediaPlayer',
-      src: config.modResults.contents,
+      src: gradleConfig.modResults.contents,
       newSrc: resolveAppGradleString(options),
       anchor: /applyNativeModulesAppBuildGradle\(project\)/i,
       offset: 2,
       comment: '//',
     });
 
-    config.modResults.contents = newCode.contents;
+    gradleConfig.modResults.contents = newCode.contents;
 
-    return config;
+    return gradleConfig;
   });
 };
 

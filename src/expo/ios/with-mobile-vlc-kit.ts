@@ -23,8 +23,8 @@ const withMobileVlcKit = (config: ExpoConfig, options?: ExpoMobileVlcKitOptions)
 
   return withDangerousMod(config, [
     'ios',
-    (config) => {
-      const filePath = path.join(config.modRequest.platformProjectRoot, 'Podfile');
+    modConfig => {
+      const filePath = path.join(modConfig.modRequest.platformProjectRoot, 'Podfile');
 
       const contents = fs.readFileSync(filePath, 'utf-8');
 
@@ -32,14 +32,14 @@ const withMobileVlcKit = (config: ExpoConfig, options?: ExpoMobileVlcKitOptions)
         tag: 'withVlcMediaPlayer',
         src: contents,
         newSrc: "  pod 'MobileVLCKit', '3.3.10'",
-        anchor: /use\_expo\_modules\!/i,
+        anchor: /use_expo_modules!/i,
         offset: 3,
         comment: '  #',
       });
 
       fs.writeFileSync(filePath, newCode.contents);
 
-      return config;
+      return modConfig;
     },
   ]);
 };

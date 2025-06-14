@@ -17,12 +17,12 @@ export interface VLCPlayerIosProps extends VLCPlayerIosEvents {
   autoplay: boolean;
 }
 
-export type VLCPlayerIosSource = {
+export interface VLCPlayerIosSource {
   uri: string;
   initType: number;
   initOptions: string[];
   headers: Record<string, string>;
-};
+}
 
 export interface VLCPlayerIosEvents {
   onVideoProgress: (event: NativeSyntheticEvent<IosVideoProgressEvent>) => void;

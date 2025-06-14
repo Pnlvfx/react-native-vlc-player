@@ -51,7 +51,7 @@ export const VLCPlayer = ({
   volume,
   onRecordingCreated,
 }: VLCPlayerProps) => {
-  const playerRef = useRef<Component<NativePlayerProps, {}, any> & NativeMethods>(null);
+  const playerRef = useRef<Component<NativePlayerProps> & NativeMethods>(null);
   const lastRecording = useRef<string>(undefined);
 
   const setNativeProps = useCallback((props: Partial<NativePlayerCommands>) => {
@@ -61,16 +61,16 @@ export const VLCPlayer = ({
   useImperativeHandle(
     ref,
     () => ({
-      seek: (pos) => {
+      seek: pos => {
         setNativeProps({ seek: pos });
       },
-      resume: (isResume) => {
+      resume: isResume => {
         setNativeProps({ resume: isResume });
       },
-      autoAspectRatio: (isAuto) => {
+      autoAspectRatio: isAuto => {
         setNativeProps({ autoAspectRatio: isAuto });
       },
-      changeVideoAspectRatio: (ratio) => {
+      changeVideoAspectRatio: ratio => {
         setNativeProps({ videoAspectRatio: ratio });
       },
       startRecording: (path: string) => {
@@ -89,7 +89,7 @@ export const VLCPlayer = ({
           [],
         );
       },
-      snapshot: (path) => {
+      snapshot: path => {
         /** @ts-expect-error Idk how to declare this types. */
         UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), UIManager.getViewManagerConfig('RCTVLCPlayer').Commands.snapshot, [
           path,
