@@ -1,11 +1,15 @@
+require 'json'
+
+package = JSON.parse(File.read(File.join(__dir__, '..', 'package.json')))
+
 Pod::Spec.new do |s|
   s.name         = "react-native-vlc-player"
-  s.version      = "1.0.89"
-  s.summary      = "VLC player"
+  s.version      = package['version']
+  s.summary      = package['description']
   s.requires_arc = true
   s.author       = { 'simone.gauli' => 'simonegauli@gmail.com' }
-  s.license      = 'MIT'
-  s.homepage     = 'https://github.com/Pnlvfx/react-native-vlc-player.git'
+  s.license      = package['license']
+  s.homepage     = package['homepage']
   s.source       = { :git => "https://github.com/Pnlvfx/react-native-vlc-player.git" }
   s.source_files = 'ios/RCTVLCPlayer/*'
   s.ios.deployment_target = "13.0"
