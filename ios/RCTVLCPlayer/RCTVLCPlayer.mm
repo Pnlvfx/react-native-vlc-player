@@ -271,12 +271,13 @@ static NSString *const playbackRate = @"rate";
         int remainingTime = [[_player remainingTime] intValue];
         int duration      = [_player.media.length intValue];
         
+        [self updateVideoInfo];
         self.onVideoProgress(@{
             @"target": self.reactTag,
             @"currentTime": [NSNumber numberWithInt:currentTime],
             @"remainingTime": [NSNumber numberWithInt:remainingTime],
             @"duration":[NSNumber numberWithInt:duration],
-            @"position":[NSNumber numberWithFloat:_player.position]
+            @"position":[NSNumber numberWithFloat:_player.position],
         });
         
     }
@@ -321,8 +322,8 @@ static NSString *const playbackRate = @"rate";
     }
     
     if (![_videoInfo isEqualToDictionary:info]) {
-                self.onVideoLoad(info);
-                _videoInfo = info;
+        self.onVideoLoad(info);
+        _videoInfo = info;
     }
 }
 
