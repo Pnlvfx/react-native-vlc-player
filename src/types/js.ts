@@ -1,12 +1,6 @@
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { RefObject } from 'react';
-import type { VideoAspectRatio } from './native';
-import type { SimpleCallbackEventProps, VideoSnapshotEvent } from './shared';
-
-/**
- * Video resize mode
- */
-type PlayerResizeMode = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
+import type { PlayerResizeMode, SimpleCallbackEventProps, VideoAspectRatio, VideoInfo, VideoSnapshotEvent } from './shared';
 
 /**
  * VLC Player source configuration options
@@ -40,51 +34,6 @@ export interface VLCPlayerSource {
    * @default []
    */
   initOptions?: string[];
-}
-
-/**
- * Represents a track type in playback
- */
-interface Track {
-  /**
-   * Track identification
-   */
-  id: number;
-
-  /**
-   * Track name
-   */
-  name: string;
-}
-
-/**
- * Represents a full playback information
- */
-interface VideoInfo {
-  /**
-   * Total playback duration
-   */
-  duration: number;
-
-  /**
-   * Playback target
-   */
-  target: number;
-
-  /**
-   * Total playback video size
-   */
-  videoSize: Record<'width' | 'height', number>;
-
-  /**
-   * List of playback audio tracks
-   */
-  audioTracks: Track[];
-
-  /**
-   * List of playback text tracks
-   */
-  textTracks: Track[];
 }
 
 type OnPlayingEventProps = Pick<VideoInfo, 'duration' | 'target'> & {

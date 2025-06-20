@@ -1,6 +1,5 @@
 import type { NativeSyntheticEvent } from 'react-native';
-import type { VideoAspectRatio } from './native';
-import type { SimpleCallbackEventProps, VideoSnapshotEvent } from './shared';
+import type { SimpleCallbackEventProps, VideoAspectRatio, VideoInfo, VideoSnapshotEvent } from './shared';
 
 export interface VLCPlayerIosProps extends VLCPlayerIosEvents {
   source: VLCPlayerIosSource;
@@ -18,9 +17,34 @@ export interface VLCPlayerIosProps extends VLCPlayerIosEvents {
 }
 
 interface VLCPlayerIosSource {
+  /**
+   * Media source URI to render
+   */
   uri: string;
-  initType: number;
-  initOptions: string[];
+  /**
+   * VLC Player initialization type
+   *
+   *  - Default configuration: `1`
+   *  - Custom configuration: `2`
+   *
+   * See `initOptions` for more information
+   *
+   * @default 1
+   */
+  initType?: 1 | 2;
+  /**
+   * https://wiki.videolan.org/VLC_command-line_help/
+   *
+   * VLC Player initialization options
+   *
+   * `["--network-caching=50", "--rtsp-tcp"]`
+   *
+   * If `repeat` is set on props this will default to ["--repeat"] unless
+   * another `--repeat` or `--input-repeat` flag is passed.
+   *
+   * @default []
+   */
+  initOptions?: string[];
   headers: Record<string, string>;
 }
 
@@ -34,7 +58,7 @@ interface VLCPlayerIosEvents {
   onVideoError: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
   onVideoOpen: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
   onVideoLoadStart: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
-  onVideoLoad: (event: NativeSyntheticEvent<IosVideoLoadEvent>) => void;
+  onVideoLoad: (event: NativeSyntheticEvent<VideoInfo>) => void;
   onRecordingState: (event: NativeSyntheticEvent<IosRecordingStateEvent>) => void;
   onSnapshot: (event: NativeSyntheticEvent<VideoSnapshotEvent>) => void;
 }
@@ -56,22 +80,6 @@ export interface IosVideoEndedEvent extends SimpleCallbackEventProps {
   remainingTime: number;
   duration: number;
   position: number;
-}
-
-export interface IosVideoLoadEvent extends SimpleCallbackEventProps {
-  duration: number;
-  videoSize: {
-    width: number;
-    height: number;
-  };
-  audioTracks: {
-    id: number;
-    name: string;
-  }[];
-  textTracks: {
-    id: number;
-    name: string;
-  }[];
 }
 
 export interface IosRecordingStateEvent extends SimpleCallbackEventProps {
