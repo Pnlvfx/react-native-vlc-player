@@ -1,6 +1,6 @@
 import type { NativeSyntheticEvent } from 'react-native';
 import type { VideoAspectRatio } from './native';
-import type { VideoSnapshotEvent, VideoTargetEvent } from './shared';
+import type { VideoSnapshotEvent, SimpleCallbackEventProps } from './shared';
 
 export interface VLCPlayerAndroidProps extends VLCPlayerAndroidEvents {
   source: VLCPlayerAndroidSource;
@@ -22,14 +22,14 @@ export interface VLCPlayerAndroidProps extends VLCPlayerAndroidEvents {
   clear: boolean;
 }
 
-export interface VLCPlayerAndroidSource {
+interface VLCPlayerAndroidSource {
   uri: string;
   isNetwork: boolean;
   autoplay: boolean;
 }
 
-export interface VLCPlayerAndroidEvents {
-  onVideoLoadStart: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
+interface VLCPlayerAndroidEvents {
+  onVideoLoadStart: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
   onVideoOpen: (event: NativeSyntheticEvent<AndroidVideoOpenEvent>) => void;
   onVideoProgress: (event: NativeSyntheticEvent<AndroidVideoProgressEvent>) => void;
   onVideoSeek: (event: NativeSyntheticEvent<AndroidVideoSeekEvent>) => void;
@@ -45,16 +45,16 @@ export interface VLCPlayerAndroidEvents {
   onSnapshot: (event: NativeSyntheticEvent<VideoSnapshotEvent>) => void;
 }
 
-export interface AndroidVideoStoppedEvent extends VideoTargetEvent {
+export interface AndroidVideoStoppedEvent extends SimpleCallbackEventProps {
   type: 'Stopped';
 }
 
-export interface AndroidVideoBufferingEvent extends VideoTargetEvent {
+export interface AndroidVideoBufferingEvent extends SimpleCallbackEventProps {
   type: 'Buffering';
   bufferRate: number;
 }
 
-export interface AndroidVideoPausedEvent extends VideoTargetEvent {
+export interface AndroidVideoPausedEvent extends SimpleCallbackEventProps {
   type: 'Paused';
   isPlaying: false;
   position: number;
@@ -62,7 +62,7 @@ export interface AndroidVideoPausedEvent extends VideoTargetEvent {
   duration: number;
 }
 
-export interface AndroidLayoutVideoStateChangeEvent extends VideoTargetEvent {
+interface AndroidLayoutVideoStateChangeEvent extends SimpleCallbackEventProps {
   type: 'onNewVideoLayout';
   mVideoWidth: number;
   mVideoHeight: number;
@@ -72,12 +72,12 @@ export interface AndroidLayoutVideoStateChangeEvent extends VideoTargetEvent {
   mSarDen: number;
 }
 
-export interface AndroidVideoStateChangeEvent extends VideoTargetEvent {
+interface AndroidVideoStateChangeEvent extends SimpleCallbackEventProps {
   type: 'Paused' | 'Buffering' | 'Stopped' | 'Error';
   [key: string]: unknown;
 }
 
-export interface AndroidVideoPlayingEvent extends VideoTargetEvent {
+export interface AndroidVideoPlayingEvent extends SimpleCallbackEventProps {
   type: 'Playing';
   isPlaying: true;
   position: number;
@@ -85,7 +85,7 @@ export interface AndroidVideoPlayingEvent extends VideoTargetEvent {
   duration: number;
 }
 
-export interface AndroidVideoEndEvent extends VideoTargetEvent {
+export interface AndroidVideoEndEvent extends SimpleCallbackEventProps {
   type: 'Ended';
   isPlaying: boolean;
   position: number;
@@ -93,11 +93,11 @@ export interface AndroidVideoEndEvent extends VideoTargetEvent {
   duration: number;
 }
 
-export interface AndroidVideoSeekEvent extends VideoTargetEvent {
+interface AndroidVideoSeekEvent extends SimpleCallbackEventProps {
   type: 'TimeChanged';
 }
 
-export interface AndroidVideoOpenEvent extends VideoTargetEvent {
+export interface AndroidVideoOpenEvent extends SimpleCallbackEventProps {
   type: 'Opening';
   isPlaying: boolean;
   position: number;
@@ -105,7 +105,7 @@ export interface AndroidVideoOpenEvent extends VideoTargetEvent {
   duration: number;
 }
 
-export interface AndroidVideoProgressEvent extends VideoTargetEvent {
+export interface AndroidVideoProgressEvent extends SimpleCallbackEventProps {
   isPlaying: boolean;
   /** From 0.0 to 1.0. */
   position: number;
@@ -115,14 +115,14 @@ export interface AndroidVideoProgressEvent extends VideoTargetEvent {
   duration: number;
 }
 
-export interface AndroidVideoErrorEvent extends VideoTargetEvent {
+export interface AndroidVideoErrorEvent extends SimpleCallbackEventProps {
   error: {
     errorString: string;
     excepion: string;
   };
 }
 
-export interface AndroidVideoLoadEvent extends VideoTargetEvent {
+export interface AndroidVideoLoadEvent extends SimpleCallbackEventProps {
   duration: number;
   audioTracks: {
     id: number;
@@ -138,7 +138,7 @@ export interface AndroidVideoLoadEvent extends VideoTargetEvent {
   };
 }
 
-export interface AndroidRecordingStateEvent extends VideoTargetEvent {
+export interface AndroidRecordingStateEvent extends SimpleCallbackEventProps {
   readonly isRecording: boolean;
   readonly recordPath?: string;
 }

@@ -17,7 +17,6 @@ module.exports = {
     curly: 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
-    'no-console': 'warn',
     'no-void': 'off',
   },
   parser: '@typescript-eslint/parser',

@@ -1,6 +1,6 @@
 import type { NativeSyntheticEvent } from 'react-native';
 import type { VideoAspectRatio } from './native';
-import type { VideoSnapshotEvent, VideoTargetEvent } from './shared';
+import type { SimpleCallbackEventProps, VideoSnapshotEvent } from './shared';
 
 export interface VLCPlayerIosProps extends VLCPlayerIosEvents {
   source: VLCPlayerIosSource;
@@ -17,48 +17,48 @@ export interface VLCPlayerIosProps extends VLCPlayerIosEvents {
   autoplay: boolean;
 }
 
-export interface VLCPlayerIosSource {
+interface VLCPlayerIosSource {
   uri: string;
   initType: number;
   initOptions: string[];
   headers: Record<string, string>;
 }
 
-export interface VLCPlayerIosEvents {
+interface VLCPlayerIosEvents {
   onVideoProgress: (event: NativeSyntheticEvent<IosVideoProgressEvent>) => void;
-  onVideoPaused: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
-  onVideoStopped: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
-  onVideoBuffering: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
+  onVideoPaused: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
+  onVideoStopped: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
+  onVideoBuffering: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
   onVideoPlaying: (event: NativeSyntheticEvent<IosVideoPlayingEvent>) => void;
   onVideoEnded: (event: NativeSyntheticEvent<IosVideoEndedEvent>) => void;
-  onVideoError: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
-  onVideoOpen: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
-  onVideoLoadStart: (event: NativeSyntheticEvent<VideoTargetEvent>) => void;
+  onVideoError: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
+  onVideoOpen: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
+  onVideoLoadStart: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
   onVideoLoad: (event: NativeSyntheticEvent<IosVideoLoadEvent>) => void;
   onRecordingState: (event: NativeSyntheticEvent<IosRecordingStateEvent>) => void;
   onSnapshot: (event: NativeSyntheticEvent<VideoSnapshotEvent>) => void;
 }
 
-export interface IosVideoProgressEvent extends VideoTargetEvent {
+export interface IosVideoProgressEvent extends SimpleCallbackEventProps {
   currentTime: number;
   remainingTime: number;
   duration: number;
   position: number;
 }
 
-export interface IosVideoPlayingEvent extends VideoTargetEvent {
+export interface IosVideoPlayingEvent extends SimpleCallbackEventProps {
   seekable: boolean;
   duration: number;
 }
 
-export interface IosVideoEndedEvent extends VideoTargetEvent {
+export interface IosVideoEndedEvent extends SimpleCallbackEventProps {
   currentTime: number;
   remainingTime: number;
   duration: number;
   position: number;
 }
 
-export interface IosVideoLoadEvent extends VideoTargetEvent {
+export interface IosVideoLoadEvent extends SimpleCallbackEventProps {
   duration: number;
   videoSize: {
     width: number;
@@ -74,7 +74,7 @@ export interface IosVideoLoadEvent extends VideoTargetEvent {
   }[];
 }
 
-export interface IosRecordingStateEvent extends VideoTargetEvent {
+export interface IosRecordingStateEvent extends SimpleCallbackEventProps {
   readonly isRecording: boolean;
   readonly recordPath?: string;
 }

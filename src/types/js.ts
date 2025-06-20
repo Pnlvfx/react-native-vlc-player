@@ -1,12 +1,12 @@
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { RefObject } from 'react';
 import type { VideoAspectRatio } from './native';
-import type { VideoSnapshotEvent } from './shared';
+import type { SimpleCallbackEventProps, VideoSnapshotEvent } from './shared';
 
 /**
  * Video resize mode
  */
-export type PlayerResizeMode = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
+type PlayerResizeMode = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
 
 /**
  * VLC Player source configuration options
@@ -45,7 +45,7 @@ export interface VLCPlayerSource {
 /**
  * Represents a track type in playback
  */
-export interface Track {
+interface Track {
   /**
    * Track identification
    */
@@ -60,7 +60,7 @@ export interface Track {
 /**
  * Represents a full playback information
  */
-export interface VideoInfo {
+interface VideoInfo {
   /**
    * Total playback duration
    */
@@ -87,11 +87,11 @@ export interface VideoInfo {
   textTracks: Track[];
 }
 
-export type OnPlayingEventProps = Pick<VideoInfo, 'duration' | 'target'> & {
+type OnPlayingEventProps = Pick<VideoInfo, 'duration' | 'target'> & {
   seekable: boolean;
 };
 
-export type OnProgressEventProps = Pick<VideoInfo, 'duration' | 'target'> & {
+type OnProgressEventProps = Pick<VideoInfo, 'duration' | 'target'> & {
   /**
    * Current playback time
    */
@@ -108,9 +108,7 @@ export type OnProgressEventProps = Pick<VideoInfo, 'duration' | 'target'> & {
   remainingTime: number;
 };
 
-export type SimpleCallbackEventProps = Pick<VideoInfo, 'target'>;
-
-export interface VLCPlayerCallbackProps {
+interface VLCPlayerCallbackProps {
   /**
    * Called when media starts playing returns
    *

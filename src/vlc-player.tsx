@@ -12,15 +12,13 @@ import type {
   AndroidVideoProgressEvent,
   AndroidVideoStoppedEvent,
 } from './types/android';
-import type { VideoSnapshotEvent, VideoTargetEvent } from './types/shared';
+import type { SimpleCallbackEventProps, VideoSnapshotEvent } from './types/shared';
 import type { IosRecordingStateEvent, IosVideoEndedEvent, IosVideoLoadEvent, IosVideoPlayingEvent, IosVideoProgressEvent } from './types/ios';
 import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
 import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 
 const RCTVLCPlayer = requireNativeComponent<NativePlayerProps>('RCTVLCPlayer');
-
-// TODO check all ios and android file again (android should be 1-1 change)
 
 export const VLCPlayer = ({
   source,
@@ -103,23 +101,23 @@ export const VLCPlayer = ({
 
   //** Event handlers */
 
-  const onBufferingHandler = (event: NativeSyntheticEvent<AndroidVideoBufferingEvent | VideoTargetEvent>) => {
+  const onBufferingHandler = (event: NativeSyntheticEvent<AndroidVideoBufferingEvent | SimpleCallbackEventProps>) => {
     if (onBuffering) {
       onBuffering({ target: event.nativeEvent.target });
     }
   };
 
-  const onErrorHandler = (event: NativeSyntheticEvent<AndroidVideoErrorEvent | VideoTargetEvent>) => {
+  const onErrorHandler = (event: NativeSyntheticEvent<AndroidVideoErrorEvent | SimpleCallbackEventProps>) => {
     if (onError) {
       onError(event.nativeEvent);
     }
   };
 
-  const onOpenHandler = (_event: NativeSyntheticEvent<AndroidVideoOpenEvent | VideoTargetEvent>) => {
+  const onOpenHandler = (_event: NativeSyntheticEvent<AndroidVideoOpenEvent | SimpleCallbackEventProps>) => {
     /** Not provided on the js types rn. */
   };
 
-  const onLoadStartHandler = (_event: NativeSyntheticEvent<VideoTargetEvent>) => {
+  const onLoadStartHandler = (_event: NativeSyntheticEvent<SimpleCallbackEventProps>) => {
     /** Not provided on the js types rn. */
   };
 
@@ -136,7 +134,7 @@ export const VLCPlayer = ({
     }
   };
 
-  const onStoppedHandler = (_event: NativeSyntheticEvent<AndroidVideoStoppedEvent | VideoTargetEvent>) => {
+  const onStoppedHandler = (_event: NativeSyntheticEvent<AndroidVideoStoppedEvent | SimpleCallbackEventProps>) => {
     setNativeProps({ paused: true });
     if (onStopped) {
       /** @ts-expect-error We will look at it later on. */
@@ -144,7 +142,7 @@ export const VLCPlayer = ({
     }
   };
 
-  const onPausedHandler = (event: NativeSyntheticEvent<AndroidVideoPausedEvent | VideoTargetEvent>) => {
+  const onPausedHandler = (event: NativeSyntheticEvent<AndroidVideoPausedEvent | SimpleCallbackEventProps>) => {
     if (onPaused) {
       onPaused(event.nativeEvent);
     }
@@ -223,4 +221,4 @@ const { baseStyle } = StyleSheet.create({
   },
 });
 
-export * from './types/js';
+export type { VLCPlayerCommands, VLCPlayerProps } from './types/js';
