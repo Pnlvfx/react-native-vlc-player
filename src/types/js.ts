@@ -17,41 +17,34 @@ export interface VLCPlayerProps extends SharedPlayerProps, VLCPlayerCallbackProp
    * Object that contains the uri of a video or song to play eg
    */
   source: VLCPlayerSource;
+  /**
+   * The player ref
+   */
   ref?: RefObject<VLCPlayerCommands | null>;
   /**
    * Set to `true` or `false` to loop the media
    * @default false
    */
   repeat?: boolean;
-
   /**
    * Set the volume of the player
    */
   volume?: number;
   /**
-   * Set to `true` or `false` to allow playing in the background
-   * @default false
-   */
-  playInBackground?: boolean;
-
-  /**
    * Set to `true` or `false` to enable auto aspect ratio
    * @default false
    */
   autoAspectRatio?: boolean;
-
   /**
    * React native view stylesheet styles
    */
   style?: StyleProp<ViewStyle>;
-
   /**
    * Enables autoplay
    *
    * @default true
    */
   autoplay?: boolean;
-
   /**
    * android only
    */

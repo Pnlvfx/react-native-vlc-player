@@ -41,6 +41,11 @@ export interface VideoInfo extends SimpleCallbackEventProps {
   textTracks: Track[];
 }
 
+export interface RecordingStateEvent extends SimpleCallbackEventProps {
+  readonly isRecording: boolean;
+  readonly recordPath?: string;
+}
+
 export interface SharedPlayerProps {
   /**
    * local subtitle file path，if you want to hide subtitle,

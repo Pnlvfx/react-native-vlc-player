@@ -1,5 +1,5 @@
 import type { NativeSyntheticEvent } from 'react-native';
-import type { SharedPlayerProps, SimpleCallbackEventProps, VideoInfo, VideoSnapshotEvent } from './shared';
+import type { RecordingStateEvent, SharedPlayerProps, SimpleCallbackEventProps, VideoInfo, VideoSnapshotEvent } from './shared';
 
 export interface VLCPlayerIosProps extends SharedPlayerProps, VLCPlayerIosEvents {
   source: VLCPlayerIosSource;
@@ -49,7 +49,7 @@ interface VLCPlayerIosEvents {
   onVideoOpen: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
   onVideoLoadStart: (event: NativeSyntheticEvent<SimpleCallbackEventProps>) => void;
   onVideoLoad: (event: NativeSyntheticEvent<VideoInfo>) => void;
-  onRecordingState: (event: NativeSyntheticEvent<IosRecordingStateEvent>) => void;
+  onRecordingState: (event: NativeSyntheticEvent<RecordingStateEvent>) => void;
   onSnapshot: (event: NativeSyntheticEvent<VideoSnapshotEvent>) => void;
 }
 
@@ -70,9 +70,4 @@ export interface IosVideoEndedEvent extends SimpleCallbackEventProps {
   remainingTime: number;
   duration: number;
   position: number;
-}
-
-export interface IosRecordingStateEvent extends SimpleCallbackEventProps {
-  readonly isRecording: boolean;
-  readonly recordPath?: string;
 }

@@ -1,15 +1,7 @@
-import type { VLCPlayerProps } from './types/js';
+import type { VLCPlayerProps, VLCStoppedEvent } from './types/js';
 import type { NativePlayerCommands, NativePlayerProps } from './types/native';
-import type {
-  AndroidLayoutVideoStateChangeEvent,
-  AndroidRecordingStateEvent,
-  AndroidVideoOpenEvent,
-  AndroidVideoSeekEvent,
-  AndroidVideoStateChangeEvent,
-  AndroidVideoStoppedEvent,
-} from './types/android';
-import type { SimpleCallbackEventProps, VideoInfo, VideoSnapshotEvent } from './types/shared';
-import type { IosRecordingStateEvent } from './types/ios';
+import type { AndroidLayoutVideoStateChangeEvent, AndroidVideoOpenEvent, AndroidVideoSeekEvent, AndroidVideoStateChangeEvent } from './types/android';
+import type { RecordingStateEvent, SimpleCallbackEventProps, VideoInfo, VideoSnapshotEvent } from './types/shared';
 import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
 import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
@@ -43,8 +35,6 @@ export const VLCPlayer = ({
   autoAspectRatio,
   muted,
   paused,
-  /** @ts-expect-error I didn't find it on the native side. */
-  playInBackground,
   rate,
   repeat,
   seek,
@@ -79,26 +69,19 @@ export const VLCPlayer = ({
         setNativeProps({ videoAspectRatio: ratio });
       },
       startRecording: (path: string) => {
-        UIManager.dispatchViewManagerCommand(
-          findNodeHandle(playerRef.current),
-          /** @ts-expect-error Idk how to declare this types. */
-          UIManager.getViewManagerConfig('RCTVLCPlayer').Commands.startRecording,
-          [path],
-        );
+        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['startRecording'];
+        if (!command) throw new Error('Command startRecording not found on the native side.');
+        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, [path]);
       },
       stopRecording: () => {
-        UIManager.dispatchViewManagerCommand(
-          findNodeHandle(playerRef.current),
-          /** @ts-expect-error Idk how to declare this types. */
-          UIManager.getViewManagerConfig('RCTVLCPlayer').Commands.stopRecording,
-          [],
-        );
+        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['stopRecording'];
+        if (!command) throw new Error('Command stopRecording not found on the native side.');
+        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, []);
       },
       snapshot: path => {
-        /** @ts-expect-error Idk how to declare this types. */
-        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), UIManager.getViewManagerConfig('RCTVLCPlayer').Commands.snapshot, [
-          path,
-        ]);
+        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['snapshot'];
+        if (!command) throw new Error('Command snapshot not found on the native side.');
+        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, [path]);
       },
     }),
     [setNativeProps],
@@ -113,7 +96,7 @@ export const VLCPlayer = ({
   const onEndedHandler = createEventHandler(onEnd);
   const onPausedHandler = createEventHandler(onPaused);
 
-  const onStoppedHandler = (event: NativeSyntheticEvent<AndroidVideoStoppedEvent | SimpleCallbackEventProps>) => {
+  const onStoppedHandler = (event: NativeSyntheticEvent<VLCStoppedEvent>) => {
     setNativeProps({ paused: true });
     if (onStopped) {
       onStopped(event.nativeEvent);
@@ -126,7 +109,7 @@ export const VLCPlayer = ({
     }
   };
 
-  const onRecordingState = (event: NativeSyntheticEvent<AndroidRecordingStateEvent | IosRecordingStateEvent>) => {
+  const onRecordingState = (event: NativeSyntheticEvent<RecordingStateEvent>) => {
     if (lastRecording.current === event.nativeEvent.recordPath) return;
     if (!event.nativeEvent.isRecording && event.nativeEvent.recordPath) {
       lastRecording.current = event.nativeEvent.recordPath;

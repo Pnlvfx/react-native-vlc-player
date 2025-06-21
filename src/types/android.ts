@@ -1,5 +1,5 @@
 import type { NativeSyntheticEvent } from 'react-native';
-import type { VideoSnapshotEvent, SimpleCallbackEventProps, VideoInfo, SharedPlayerProps } from './shared';
+import type { VideoSnapshotEvent, SimpleCallbackEventProps, VideoInfo, SharedPlayerProps, RecordingStateEvent } from './shared';
 
 export interface VLCPlayerAndroidProps extends SharedPlayerProps, VLCPlayerAndroidEvents {
   source: VLCPlayerAndroidSource;
@@ -30,7 +30,7 @@ interface VLCPlayerAndroidEvents {
   onVideoError: (event: NativeSyntheticEvent<AndroidVideoErrorEvent>) => void;
   onVideoStopped: (event: NativeSyntheticEvent<AndroidVideoStoppedEvent>) => void;
   onVideoLoad: (event: NativeSyntheticEvent<VideoInfo>) => void;
-  onRecordingState: (event: NativeSyntheticEvent<AndroidRecordingStateEvent>) => void;
+  onRecordingState: (event: NativeSyntheticEvent<RecordingStateEvent>) => void;
   onSnapshot: (event: NativeSyntheticEvent<VideoSnapshotEvent>) => void;
 }
 
@@ -109,9 +109,4 @@ export interface AndroidVideoErrorEvent extends SimpleCallbackEventProps {
     errorString: string;
     excepion: string;
   };
-}
-
-export interface AndroidRecordingStateEvent extends SimpleCallbackEventProps {
-  readonly isRecording: boolean;
-  readonly recordPath?: string;
 }
