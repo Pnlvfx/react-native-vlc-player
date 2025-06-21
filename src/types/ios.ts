@@ -1,18 +1,8 @@
 import type { NativeSyntheticEvent } from 'react-native';
-import type { SimpleCallbackEventProps, VideoAspectRatio, VideoInfo, VideoSnapshotEvent } from './shared';
+import type { SharedPlayerProps, SimpleCallbackEventProps, VideoInfo, VideoSnapshotEvent } from './shared';
 
-export interface VLCPlayerIosProps extends VLCPlayerIosEvents {
+export interface VLCPlayerIosProps extends SharedPlayerProps, VLCPlayerIosEvents {
   source: VLCPlayerIosSource;
-  subtitleUri?: string;
-  paused?: boolean;
-  seek?: number;
-  rate?: number;
-  resume: boolean;
-  videoAspectRatio?: VideoAspectRatio;
-  snapshotPath: string;
-  muted?: boolean;
-  audioTrack?: number;
-  textTrack?: number;
   autoplay: boolean;
 }
 

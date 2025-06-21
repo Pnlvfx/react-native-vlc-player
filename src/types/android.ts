@@ -1,24 +1,14 @@
 import type { NativeSyntheticEvent } from 'react-native';
-import type { VideoSnapshotEvent, SimpleCallbackEventProps, VideoAspectRatio, VideoInfo } from './shared';
+import type { VideoSnapshotEvent, SimpleCallbackEventProps, VideoInfo, SharedPlayerProps } from './shared';
 
-export interface VLCPlayerAndroidProps extends VLCPlayerAndroidEvents {
+export interface VLCPlayerAndroidProps extends SharedPlayerProps, VLCPlayerAndroidEvents {
   source: VLCPlayerAndroidSource;
-  subtitleUri?: string;
   repeat?: boolean;
-  paused?: boolean;
-  muted?: boolean;
   volume?: number;
-  seek?: number;
   autoAspectRatio?: boolean;
-  resume: boolean;
-  rate?: number;
-  position: number;
-  videoAspectRatio?: VideoAspectRatio;
-  snapshotPath: string;
-  audioTrack?: number;
-  textTrack?: number;
+  position?: number;
   progressUpdateInterval: number;
-  clear: boolean;
+  clear?: boolean;
 }
 
 interface VLCPlayerAndroidSource {
@@ -61,7 +51,7 @@ export interface AndroidVideoPausedEvent extends SimpleCallbackEventProps {
   duration: number;
 }
 
-interface AndroidLayoutVideoStateChangeEvent extends SimpleCallbackEventProps {
+export interface AndroidLayoutVideoStateChangeEvent extends SimpleCallbackEventProps {
   type: 'onNewVideoLayout';
   mVideoWidth: number;
   mVideoHeight: number;
@@ -71,7 +61,7 @@ interface AndroidLayoutVideoStateChangeEvent extends SimpleCallbackEventProps {
   mSarDen: number;
 }
 
-interface AndroidVideoStateChangeEvent extends SimpleCallbackEventProps {
+export interface AndroidVideoStateChangeEvent extends SimpleCallbackEventProps {
   type: 'Paused' | 'Buffering' | 'Stopped' | 'Error';
   [key: string]: unknown;
 }
@@ -92,7 +82,7 @@ export interface AndroidVideoEndEvent extends SimpleCallbackEventProps {
   duration: number;
 }
 
-interface AndroidVideoSeekEvent extends SimpleCallbackEventProps {
+export interface AndroidVideoSeekEvent extends SimpleCallbackEventProps {
   type: 'TimeChanged';
 }
 

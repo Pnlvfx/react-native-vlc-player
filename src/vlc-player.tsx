@@ -1,23 +1,29 @@
 import type { VLCPlayerProps } from './types/js';
 import type { NativePlayerCommands, NativePlayerProps } from './types/native';
 import type {
+  AndroidLayoutVideoStateChangeEvent,
   AndroidRecordingStateEvent,
-  AndroidVideoBufferingEvent,
-  AndroidVideoEndEvent,
-  AndroidVideoErrorEvent,
   AndroidVideoOpenEvent,
-  AndroidVideoPausedEvent,
-  AndroidVideoPlayingEvent,
-  AndroidVideoProgressEvent,
+  AndroidVideoSeekEvent,
+  AndroidVideoStateChangeEvent,
   AndroidVideoStoppedEvent,
 } from './types/android';
 import type { SimpleCallbackEventProps, VideoInfo, VideoSnapshotEvent } from './types/shared';
-import type { IosRecordingStateEvent, IosVideoEndedEvent, IosVideoPlayingEvent, IosVideoProgressEvent } from './types/ios';
+import type { IosRecordingStateEvent } from './types/ios';
 import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
 import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 
 const RCTVLCPlayer = requireNativeComponent<NativePlayerProps>('RCTVLCPlayer');
+
+// Simple wrapper that infers types from the callback
+function createEventHandler<T>(callback: ((event: T) => void) | undefined) {
+  return (event: NativeSyntheticEvent<T>) => {
+    if (callback) {
+      callback(event.nativeEvent);
+    }
+  };
+}
 
 export const VLCPlayer = ({
   source,
@@ -41,17 +47,17 @@ export const VLCPlayer = ({
   playInBackground,
   rate,
   repeat,
-  /** @ts-expect-error I didn't find it on the native side. */
-  resizeMode,
   seek,
   subtitleUri,
   textTrack,
   videoAspectRatio,
   volume,
+  clear,
   onRecordingCreated,
 }: VLCPlayerProps) => {
   const playerRef = useRef<Component<NativePlayerProps> & NativeMethods>(null);
   const lastRecording = useRef<string>(undefined);
+  const resolvedAssetSource = useMemo(() => resolveAssetSource({ input: source, autoplay, repeat }), [source, autoplay, repeat]);
 
   const setNativeProps = useCallback((props: Partial<NativePlayerCommands>) => {
     playerRef.current?.setNativeProps(props);
@@ -100,57 +106,17 @@ export const VLCPlayer = ({
 
   //** Event handlers */
 
-  const onBufferingHandler = (event: NativeSyntheticEvent<AndroidVideoBufferingEvent | SimpleCallbackEventProps>) => {
-    if (onBuffering) {
-      onBuffering({ target: event.nativeEvent.target });
-    }
-  };
+  const onBufferingHandler = createEventHandler(onBuffering);
+  const onErrorHandler = createEventHandler(onError);
+  const onProgressHandler = createEventHandler(onProgress);
+  const onPlayingHandler = createEventHandler(onPlaying);
+  const onEndedHandler = createEventHandler(onEnd);
+  const onPausedHandler = createEventHandler(onPaused);
 
-  const onErrorHandler = (event: NativeSyntheticEvent<AndroidVideoErrorEvent | SimpleCallbackEventProps>) => {
-    if (onError) {
-      onError(event.nativeEvent);
-    }
-  };
-
-  const onOpenHandler = (_event: NativeSyntheticEvent<AndroidVideoOpenEvent | SimpleCallbackEventProps>) => {
-    /** Not provided on the js types rn. */
-  };
-
-  const onLoadStartHandler = (_event: NativeSyntheticEvent<SimpleCallbackEventProps>) => {
-    /** Not provided on the js types rn. */
-  };
-
-  const onProgressHandler = (event: NativeSyntheticEvent<AndroidVideoProgressEvent | IosVideoProgressEvent>) => {
-    if (onProgress) {
-      /** @ts-expect-error We will look at it later on. */
-      onProgress(event.nativeEvent);
-    }
-  };
-
-  const onEndedHandler = (event: NativeSyntheticEvent<AndroidVideoEndEvent | IosVideoEndedEvent>) => {
-    if (onEnd) {
-      onEnd(event.nativeEvent);
-    }
-  };
-
-  const onStoppedHandler = (_event: NativeSyntheticEvent<AndroidVideoStoppedEvent | SimpleCallbackEventProps>) => {
+  const onStoppedHandler = (event: NativeSyntheticEvent<AndroidVideoStoppedEvent | SimpleCallbackEventProps>) => {
     setNativeProps({ paused: true });
     if (onStopped) {
-      /** @ts-expect-error We will look at it later on. */
-      onStopped();
-    }
-  };
-
-  const onPausedHandler = (event: NativeSyntheticEvent<AndroidVideoPausedEvent | SimpleCallbackEventProps>) => {
-    if (onPaused) {
-      onPaused(event.nativeEvent);
-    }
-  };
-
-  const onPlayingHandler = (event: NativeSyntheticEvent<AndroidVideoPlayingEvent | IosVideoPlayingEvent>) => {
-    if (onPlaying) {
-      /** @ts-expect-error We will look at it later on. */
-      onPlaying(event.nativeEvent);
+      onStopped(event.nativeEvent);
     }
   };
 
@@ -176,10 +142,27 @@ export const VLCPlayer = ({
     }
   };
 
-  const resolvedAssetSource = useMemo(() => resolveAssetSource({ input: source, autoplay, repeat }), [source, autoplay, repeat]);
+  /** currently not used */
+  const onOpenHandler = (_event: NativeSyntheticEvent<AndroidVideoOpenEvent | SimpleCallbackEventProps>) => {
+    /** Not provided on the js types rn. */
+  };
+
+  const onLoadStartHandler = (_event: NativeSyntheticEvent<SimpleCallbackEventProps>) => {
+    /** Not provided on the js types rn. */
+  };
+
+  /** android only */
+  const onVideoSeek = (event: NativeSyntheticEvent<AndroidVideoSeekEvent>) => {
+    // eslint-disable-next-line no-console
+    console.warn('WARN: onVideoSeek in currently not implemented', event);
+  };
+
+  const onVideoStateChange = (event: NativeSyntheticEvent<AndroidVideoStateChangeEvent | AndroidLayoutVideoStateChangeEvent>) => {
+    // eslint-disable-next-line no-console
+    console.warn('WARN: onVideoStateChange in currently not implemented', event);
+  };
 
   return (
-    /** @ts-expect-error We will add the missing properties later on. */
     <RCTVLCPlayer
       ref={playerRef}
       source={resolvedAssetSource}
@@ -198,6 +181,8 @@ export const VLCPlayer = ({
       onVideoLoad={onLoadHandler}
       onRecordingState={onRecordingState}
       onSnapshot={onSnapshotHandler}
+      onVideoSeek={onVideoSeek}
+      onVideoStateChange={onVideoStateChange}
       audioTrack={audioTrack}
       autoAspectRatio={autoAspectRatio}
       muted={muted}
@@ -210,6 +195,7 @@ export const VLCPlayer = ({
       videoAspectRatio={videoAspectRatio}
       volume={volume}
       progressUpdateInterval={onProgress ? 250 : 0}
+      clear={clear}
     />
   );
 };
