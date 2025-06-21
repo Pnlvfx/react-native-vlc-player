@@ -126,57 +126,49 @@ interface VLCPlayerCallbackProps {
    *
    * @param event - Event properties
    */
-  onPlaying?: (event: IosVideoPlayingEvent | AndroidVideoPlayingEvent) => void;
-
+  onPlaying?: (event: VLCPlayingEvent) => void;
   /**
    * Callback containing position as a fraction, and duration, currentTime and remainingTime in seconds
    *
    * @param event - Event properties
    */
-  onProgress?: (event: IosVideoProgressEvent | AndroidVideoProgressEvent) => void;
-
+  onProgress?: (event: VLCProgressEvent) => void;
   /**
    * Called when media is paused
    *
    * @param event - Event properties
    */
-  onPaused?: (event: SimpleCallbackEventProps | AndroidVideoPausedEvent) => void;
-
+  onPaused?: (event: VLCPausedEvent) => void;
   /**
    * Called when media is stoped
    *
    * @param event - Event properties
    */
-  onStopped?: (event: SimpleCallbackEventProps | AndroidVideoStoppedEvent) => void;
-
+  onStopped?: (event: VLCStoppedEvent) => void;
   /**
    * Called when media is buffering
    *
    * @param event - Event properties
    */
-  onBuffering?: (event: SimpleCallbackEventProps | AndroidVideoBufferingEvent) => void;
-
+  onBuffering?: (event: VLCBufferingEvent) => void;
   /**
    * Called when media playing ends
    *
    * @param event - Event properties
    */
-  onEnd?: (event: IosVideoEndedEvent | AndroidVideoEndEvent) => void;
-
+  onEnd?: (event: VLCEndEvent) => void;
   /**
    * Called when an error occurs whilst attempting to play media
    *
    * @param event - Event properties
    */
-  onError?: (event: SimpleCallbackEventProps | AndroidVideoErrorEvent) => void;
-
+  onError?: (event: VLCErrorEvent) => void;
   /**
    * Called when video info is loaded, Callback containing `VideoInfo`
    *
    * @param event - Event properties
    */
   onLoad?: (event: VideoInfo) => void;
-
   /**
    * Called when a new recording is created
    *
@@ -190,3 +182,13 @@ interface VLCPlayerCallbackProps {
    */
   onSnapshot?: (event: VideoSnapshotEvent) => void;
 }
+
+// TODO we must provide a single typed event and handle the platform differences internally
+// but that's a long work and for now we provide them like this
+export type VLCPlayingEvent = IosVideoPlayingEvent | AndroidVideoPlayingEvent;
+export type VLCProgressEvent = IosVideoProgressEvent | AndroidVideoProgressEvent;
+export type VLCPausedEvent = SimpleCallbackEventProps | AndroidVideoPausedEvent;
+export type VLCStoppedEvent = SimpleCallbackEventProps | AndroidVideoStoppedEvent;
+export type VLCBufferingEvent = SimpleCallbackEventProps | AndroidVideoBufferingEvent;
+export type VLCEndEvent = IosVideoEndedEvent | AndroidVideoEndEvent;
+export type VLCErrorEvent = SimpleCallbackEventProps | AndroidVideoErrorEvent;

@@ -206,4 +206,5 @@ const { baseStyle } = StyleSheet.create({
   },
 });
 
-export type { VLCPlayerCommands, VLCPlayerProps } from './types/js';
+export type * from './types/js';
+export type { VideoInfo, VideoSnapshotEvent } from './types/shared';
