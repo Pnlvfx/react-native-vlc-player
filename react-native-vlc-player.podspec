@@ -11,11 +11,9 @@ Pod::Spec.new do |s|
   s.license      = package['license']
   s.authors      = package["author"]
   s.source       = { :git => "https://github.com/Pnlvfx/react-native-vlc-player.git" }
-  s.source_files = 'ios/RCTVLCPlayer/*'
+  s.source_files = "ios/**/*.{h,m,mm,cpp}"
   s.ios.deployment_target = "13.0"
   s.tvos.deployment_target = "13.0"
-  s.static_framework = true
   s.dependency 'React-Core'
-  s.ios.dependency 'MobileVLCKit', '3.6.0'
-  s.tvos.dependency 'TVVLCKit', '3.6.0'
+  s.dependency 'VLCKit', '4.0.0a13'
 end
