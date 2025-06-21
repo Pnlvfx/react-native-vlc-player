@@ -7,9 +7,9 @@ Pod::Spec.new do |s|
   s.version      = package['version']
   s.summary      = package['description']
   s.requires_arc = true
-  s.author       = { 'simone.gauli' => 'simonegauli@gmail.com' }
-  s.license      = package['license']
   s.homepage     = package['homepage']
+  s.license      = package['license']
+  s.authors      = package["author"]
   s.source       = { :git => "https://github.com/Pnlvfx/react-native-vlc-player.git" }
   s.source_files = 'ios/RCTVLCPlayer/*'
   s.ios.deployment_target = "13.0"
