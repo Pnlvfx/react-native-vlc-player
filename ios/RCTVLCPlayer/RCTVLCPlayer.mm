@@ -208,7 +208,8 @@ static NSString *const playbackRate = @"rate";
                 int currentTime   = [[_player time] intValue];
                 int remainingTime = [[_player remainingTime] intValue];
                 int duration      = [_player.media.length intValue];
-                if (_player.position > 0.95 || (duration > 0 && remainingTime < 1000)) {
+                int remainingTimeAbs = abs([[_player remainingTime] intValue]);
+                if (_player.position > 0.95 || (duration > 0 && remainingTimeAbs < 1000)) {
                     self.onVideoEnded(@{
                         @"target": self.reactTag,
                         @"currentTime": [NSNumber numberWithInt:currentTime],
@@ -220,8 +221,6 @@ static NSString *const playbackRate = @"rate";
                     self.onVideoStopped(@{
                         @"target": self.reactTag
                     });
-                    
-                    
                 }
                 break;
             }
