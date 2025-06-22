@@ -3,12 +3,7 @@
 #import "React/RCTBridgeModule.h"
 #import "React/RCTEventDispatcher.h"
 #import "React/UIView+React.h"
-#if TARGET_OS_TV
-#import <TVVLCKit/TVVLCKit.h>
-#else
-#import <MobileVLCKit/MobileVLCKit.h>
-#endif
-#import <AVFoundation/AVFoundation.h>
+#import <VLCKit/VLCKit.h>
 
 static NSString *const statusKeyPath = @"status";
 static NSString *const playbackLikelyToKeepUpKeyPath = @"playbackLikelyToKeepUp";
@@ -73,7 +68,7 @@ static NSString *const playbackRate = @"rate";
 - (void)applicationWillResignActive:(NSNotification *)notification
 {
     if (!_paused)
-        [self play];
+        [self pause];
 }
 
 - (void)play
@@ -119,8 +114,6 @@ static NSString *const playbackRate = @"rate";
     
     if (_autoplay)
         [_player play];
-    
-    [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
 }
 
 - (void)setAutoplay:(BOOL)autoplay
@@ -170,9 +163,9 @@ static NSString *const playbackRate = @"rate";
     [self updateVideoProgress];
 }
 
-- (void)mediaPlayerStateChanged:(NSNotification *)aNotification
+- (void)mediaPlayer:(VLCMediaPlayer *)player stateChanged:(VLCMediaPlayerState)aState
 {
-    NSLog(@"userInfo %@",[aNotification userInfo]);
+    NSLog(@"State changed to: %ld", (long)aState);
     if (_player) {
         VLCMediaPlayerState state = _player.state;
         switch (state) {
@@ -193,9 +186,23 @@ static NSString *const playbackRate = @"rate";
                 break;
             }
             case VLCMediaPlayerStateStopped: {
-                self.onVideoStopped(@{
-                    @"target": self.reactTag
-                });
+                int currentTime   = [[_player time] intValue];
+                int remainingTime = [[_player remainingTime] intValue];
+                int duration      = [_player.media.length intValue];
+                if (currentTime > 0 && (remainingTime == 0 || _player.position >= 1.0)) {
+                    // This is end of media
+                    self.onVideoEnded(@{
+                        @"target": self.reactTag,
+                        @"currentTime": [NSNumber numberWithInt:currentTime],
+                        @"remainingTime": [NSNumber numberWithInt:remainingTime],
+                        @"duration":[NSNumber numberWithInt:duration],
+                        @"position":[NSNumber numberWithFloat:_player.position]
+                    });
+                } else {
+                    self.onVideoStopped(@{
+                        @"target": self.reactTag
+                    });
+                }
                 break;
             }
             case VLCMediaPlayerStateBuffering: {
@@ -210,20 +217,6 @@ static NSString *const playbackRate = @"rate";
                     @"target": self.reactTag,
                     @"seekable": [NSNumber numberWithBool:[_player isSeekable]],
                     @"duration":[NSNumber numberWithInt:[_player.media.length intValue]]
-                });
-                break;
-            }
-            case VLCMediaPlayerStateEnded: {
-                int currentTime   = [[_player time] intValue];
-                int remainingTime = [[_player remainingTime] intValue];
-                int duration      = [_player.media.length intValue];
-                
-                self.onVideoEnded(@{
-                    @"target": self.reactTag,
-                    @"currentTime": [NSNumber numberWithInt:currentTime],
-                    @"remainingTime": [NSNumber numberWithInt:remainingTime],
-                    @"duration":[NSNumber numberWithInt:duration],
-                    @"position":[NSNumber numberWithFloat:_player.position]
                 });
                 break;
             }
@@ -243,14 +236,6 @@ static NSString *const playbackRate = @"rate";
 
 
 //   ===== media delegate methods =====
-
-- (void)mediaDidFinishParsing:(VLCMedia *)aMedia {
-    NSLog(@"VLCMediaDidFinishParsing %i", _player.numberOfAudioTracks);
-}
-
-- (void)mediaMetaDataDidChange:(VLCMedia *)aMedia{
-    NSLog(@"VLCMediaMetaDataDidChange %i", _player.numberOfAudioTracks);
-}
 
 - (void)mediaPlayer:(VLCMediaPlayer *)player recordingStoppedAtPath:(NSString *)path {
     if (self.onRecordingState) {
@@ -287,7 +272,6 @@ static NSString *const playbackRate = @"rate";
 {
     NSMutableDictionary *info = [NSMutableDictionary new];
     info[@"duration"] = _player.media.length.value;
-    int i;
     if (_player.videoSize.width > 0) {
         info[@"videoSize"] =  @{
             @"width":  @(_player.videoSize.width),
@@ -295,26 +279,28 @@ static NSString *const playbackRate = @"rate";
         };
     }
     
-    if (_player.numberOfAudioTracks > 0) {
+    NSArray *audioTracks = [_player audioTracks];
+    
+    if ([audioTracks count] > 0) {
         NSMutableArray *tracks = [NSMutableArray new];
-        for (i = 0; i < _player.numberOfAudioTracks; i++) {
-            if (_player.audioTrackIndexes[i] && _player.audioTrackNames[i]) {
-                [tracks addObject:  @{
-                    @"id": _player.audioTrackIndexes[i],
-                    @"name":  _player.audioTrackNames[i]
+        for (NSNumber *trackId in audioTracks) {
+            if (trackId) {
+                [tracks addObject: @{
+                    @"id": trackId,
                 }];
             }
         }
         info[@"audioTracks"] = tracks;
     }
     
-    if (_player.numberOfSubtitlesTracks > 0) {
+    NSArray *textTracks = [_player textTracks];
+    
+    if ([textTracks count] > 0) {
         NSMutableArray *tracks = [NSMutableArray new];
-        for (i = 0; i < _player.numberOfSubtitlesTracks; i++) {
-            if (_player.videoSubTitlesIndexes[i] && _player.videoSubTitlesNames[i]) {
-                [tracks addObject:  @{
-                    @"id": _player.videoSubTitlesIndexes[i],
-                    @"name":  _player.videoSubTitlesNames[i]
+        for (NSNumber *trackId in textTracks) {
+            if (trackId) {
+                [tracks addObject: @{
+                    @"id": trackId,
                 }];
             }
         }
@@ -361,12 +347,12 @@ static NSString *const playbackRate = @"rate";
 
 - (void)setAudioTrack:(int)track
 {
-    [_player setCurrentAudioTrackIndex: track];
+    [_player selectTrackAtIndex:track type:VLCMediaTrackTypeAudio];
 }
 
 - (void)setTextTrack:(int)track
 {
-    [_player setCurrentVideoSubTitleIndex:track];
+    [_player selectTrackAtIndex:track type:VLCMediaTrackTypeText];
 }
 
 - (void)startRecording:(NSString*)path
@@ -412,9 +398,7 @@ static NSString *const playbackRate = @"rate";
 
 
 - (void)setVideoAspectRatio:(NSString *)ratio{
-    char *char_content = strdup([ratio cStringUsingEncoding:NSASCIIStringEncoding]);
-    [_player setVideoAspectRatio:char_content];
-    free(char_content);
+    [_player setVideoAspectRatio:ratio];
 }
 
 - (void)setMuted:(BOOL)value

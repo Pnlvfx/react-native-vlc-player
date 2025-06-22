@@ -1,10 +1,6 @@
 #import "React/RCTView.h"
 #import <React/RCTEventDispatcherProtocol.h>
-#if TARGET_OS_TV
-#import <TVVLCKit/TVVLCKit.h>
-#else
-#import <MobileVLCKit/MobileVLCKit.h>
-#endif
+#import <VLCKit/VLCKit.h>
 
 @class RCTEventDispatcher;
 
