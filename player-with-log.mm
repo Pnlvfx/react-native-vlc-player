@@ -52,23 +52,29 @@ static NSString *const playbackRate = @"rate";
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
+    NSLog(@"🔧 [VLCPlayer] InitWithFrame called");
     return [self initWithEventDispatcher:nil];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
+    NSLog(@"🔧 [VLCPlayer] InitWithCoder called");
     return [self initWithEventDispatcher:nil];
 }
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification
 {
+    NSLog(@"📱 [VLCPlayer] App entering foreground, paused: %@", _paused ? @"YES" : @"NO");
         if (!_paused) {
+            NSLog(@"▶️ [VLCPlayer] Resuming playback from foreground");
             [self play];
         }
 }
 
 - (void)applicationWillResignActive:(NSNotification *)notification
 {
+    NSLog(@"📱 [VLCPlayer] App resigning active, paused: %@", _paused ? @"YES" : @"NO");
     if (!_paused) {
+        NSLog(@"⏸️ [VLCPlayer] Pausing playback for background");
         [self pause];
     }
 }
@@ -91,7 +97,9 @@ static NSString *const playbackRate = @"rate";
 
 - (void)setSource:(NSDictionary *)source
 {
+    NSLog(@"🎬 [VLCPlayer] Setting source: %@", source);
     if (_player) {
+        NSLog(@"🗑️ [VLCPlayer] Releasing existing player");
         [self _release];
     }
     
@@ -101,6 +109,10 @@ static NSString *const playbackRate = @"rate";
     NSURL* uri = [NSURL URLWithString:uriString];
     int initType = [[source objectForKey:@"initType"] intValue];
     NSArray* initOptions = [source objectForKey:@"initOptions"];
+    
+    NSLog(@"🎬 [VLCPlayer] URI: %@", uriString);
+       NSLog(@"🎬 [VLCPlayer] Init type: %d", initType);
+       NSLog(@"🎬 [VLCPlayer] Init options: %@", initOptions);
     
     if (initType == 1) {
         _player = [[VLCMediaPlayer alloc] init];
@@ -165,10 +177,10 @@ static NSString *const playbackRate = @"rate";
 
 - (void)mediaPlayerStateChanged:(VLCMediaPlayerState)aState
 {
-    NSLog(@"State changed to: %ld", (long)aState);
     if (_player) {
         switch (aState) {
             case VLCMediaPlayerStateOpening: {
+                NSLog(@"🔄 [VLCPlayer] Opening media...");
                 self.onVideoOpen(@{
                     @"target": self.reactTag
                 });
@@ -178,6 +190,7 @@ static NSString *const playbackRate = @"rate";
                 break;
             }
             case VLCMediaPlayerStatePaused: {
+                NSLog(@"⏸️ [VLCPlayer] Playback paused");
                 _paused = YES;
                 self.onVideoPaused(@{
                     @"target": self.reactTag
@@ -188,8 +201,9 @@ static NSString *const playbackRate = @"rate";
                 int currentTime   = [[_player time] intValue];
                 int remainingTime = [[_player remainingTime] intValue];
                 int duration      = [_player.media.length intValue];
+                NSLog(@"⏹️ [VLCPlayer] Playback stopped - Current: %dms, Remaining: %dms, Duration: %dms, Position: %.3f",
+                                      currentTime, remainingTime, duration, _player.position);
                 if (duration > 0 && currentTime > 0 && (remainingTime == 0 || _player.position >= 0.95)) {
-                    // This is end of media
                     self.onVideoEnded(@{
                         @"target": self.reactTag,
                         @"currentTime": [NSNumber numberWithInt:currentTime],
@@ -205,12 +219,14 @@ static NSString *const playbackRate = @"rate";
                 break;
             }
             case VLCMediaPlayerStateBuffering: {
+                NSLog(@"🔄 [VLCPlayer] Buffering...");
                 self.onVideoBuffering(@{
                     @"target": self.reactTag
                 });
                 break;
             }
             case VLCMediaPlayerStatePlaying: {
+                NSLog(@"🔄 [VLCPlayer] Buffering...");
                 _paused = NO;
                 self.onVideoPlaying(@{
                     @"target": self.reactTag,
@@ -220,6 +236,7 @@ static NSString *const playbackRate = @"rate";
                 break;
             }
             case VLCMediaPlayerStateError:  {
+                NSLog(@"❌ [VLCPlayer] Player error occurred");
                 self.onVideoError(@{
                     @"target": self.reactTag
                 });
@@ -227,6 +244,7 @@ static NSString *const playbackRate = @"rate";
                 break;
             }
             default: {
+                NSLog(@"🔄 [VLCPlayer] Unknown state: %ld", (long)aState);
                 break;
             }
         }
@@ -314,18 +332,21 @@ static NSString *const playbackRate = @"rate";
 
 - (void)jumpBackward:(int)interval
 {
+    NSLog(@"⏪ [VLCPlayer] Jump backward: %d seconds", interval);
     if (interval>=0 && interval <= [_player.media.length intValue])
         [_player jumpBackward:interval];
 }
 
 - (void)jumpForward:(int)interval
 {
+    NSLog(@"⏩ [VLCPlayer] Jump forward executed");
     if (interval>=0 && interval <= [_player.media.length intValue])
         [_player jumpForward:interval];
 }
 
 - (void)setSeek:(float)pos
 {
+    NSLog(@"🎯 [VLCPlayer] Seeking to position: %.3f", pos);
     if ([_player isSeekable]) {
         if (pos>=0 && pos <= 1) {
             [_player setPosition:pos];
@@ -346,11 +367,13 @@ static NSString *const playbackRate = @"rate";
 
 - (void)setAudioTrack:(int)track
 {
+    NSLog(@"🎵 [VLCPlayer] Selecting audio track: %d", track);
     [_player selectTrackAtIndex:track type:VLCMediaTrackTypeAudio];
 }
 
 - (void)setTextTrack:(int)track
 {
+    NSLog(@"📝 [VLCPlayer] Selecting text track: %d", track);
     [_player selectTrackAtIndex:track type:VLCMediaTrackTypeText];
 }
 
@@ -426,6 +449,7 @@ static NSString *const playbackRate = @"rate";
 #pragma mark - Lifecycle
 - (void)removeFromSuperview
 {
+    NSLog(@"🗑️ [VLCPlayer] Removing from superview");
     [self _release];
     [super removeFromSuperview];
 }
