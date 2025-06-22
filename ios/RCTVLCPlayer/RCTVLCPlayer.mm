@@ -34,6 +34,7 @@ static NSString *const playbackRate = @"rate";
     
     BOOL _paused;
     BOOL _autoplay;
+    BOOL _wasPausedFromAppState;
 }
 
 - (instancetype)initWithEventDispatcher:(id<RCTEventDispatcherProtocol>)eventDispatcher
@@ -47,8 +48,8 @@ static NSString *const playbackRate = @"rate";
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationWillEnterForeground:)
-                                                     name:UIApplicationWillEnterForegroundNotification
+                                                 selector:@selector(applicationDidBecomeActive:)
+                                                     name:UIApplicationDidBecomeActiveNotification
                                                    object:nil];
         
     }
@@ -64,16 +65,27 @@ static NSString *const playbackRate = @"rate";
     return [self initWithEventDispatcher:nil];
 }
 
-- (void)applicationWillEnterForeground:(NSNotification *)notification
+- (void)applicationDidBecomeActive:(NSNotification *)notification
 {
-    if (!_paused)
+    NSLog(@"App regained focus - notification: %@", notification.name);
+    NSLog(@"_wasPausedFromAppState: %@", _wasPausedFromAppState ? @"YES" : @"NO");
+    NSLog(@"_paused: %@", _paused ? @"YES" : @"NO");
+    
+    if (_wasPausedFromAppState) {
+        NSLog(@"Attempting to resume playback");
         [self play];
+        _wasPausedFromAppState = NO;
+    }
 }
 
 - (void)applicationWillResignActive:(NSNotification *)notification
 {
-    if (!_paused)
-        [self play];
+    NSLog(@"applicationWillResignActive called");
+    if (!_paused) {
+        NSLog(@"Player was playing, pausing and setting flag");
+        [self pause];
+        _wasPausedFromAppState = YES;
+    }
 }
 
 - (void)play
@@ -428,12 +440,17 @@ static NSString *const playbackRate = @"rate";
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    if (_player.media)
+    if (_player.media) {
         [_player stop];
+    }
     
-    if (_player)
+    if (_player) {
         _player = nil;
+    }
     
+    _videoInfo = nil;
+    _wasPausedFromAppState = NO;
+    _subtitleUri = nil;
     _eventDispatcher = nil;
 }
 
