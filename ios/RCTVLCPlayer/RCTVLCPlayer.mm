@@ -205,9 +205,24 @@ static NSString *const playbackRate = @"rate";
                 break;
             }
             case VLCMediaPlayerStateStopped: {
-                self.onVideoStopped(@{
-                    @"target": self.reactTag
-                });
+                int currentTime   = [[_player time] intValue];
+                int remainingTime = [[_player remainingTime] intValue];
+                int duration      = [_player.media.length intValue];
+                if (_player.position > 0.95 || (duration > 0 && remainingTime < 1000)) {
+                    self.onVideoEnded(@{
+                        @"target": self.reactTag,
+                        @"currentTime": [NSNumber numberWithInt:currentTime],
+                        @"remainingTime": [NSNumber numberWithInt:remainingTime],
+                        @"duration":[NSNumber numberWithInt:duration],
+                        @"position":[NSNumber numberWithFloat:_player.position]
+                    });
+                } else {
+                    self.onVideoStopped(@{
+                        @"target": self.reactTag
+                    });
+                    
+                    
+                }
                 break;
             }
             case VLCMediaPlayerStateBuffering: {
@@ -226,17 +241,6 @@ static NSString *const playbackRate = @"rate";
                 break;
             }
             case VLCMediaPlayerStateEnded: {
-                int currentTime   = [[_player time] intValue];
-                int remainingTime = [[_player remainingTime] intValue];
-                int duration      = [_player.media.length intValue];
-                
-                self.onVideoEnded(@{
-                    @"target": self.reactTag,
-                    @"currentTime": [NSNumber numberWithInt:currentTime],
-                    @"remainingTime": [NSNumber numberWithInt:remainingTime],
-                    @"duration":[NSNumber numberWithInt:duration],
-                    @"position":[NSNumber numberWithFloat:_player.position]
-                });
                 break;
             }
             case VLCMediaPlayerStateError:  {
@@ -449,7 +453,7 @@ static NSString *const playbackRate = @"rate";
     }
     
     _videoInfo = nil;
-    _wasPausedFromAppState = NO;
+    _wasPausedFromAppState = false;
     _subtitleUri = nil;
     _eventDispatcher = nil;
 }
