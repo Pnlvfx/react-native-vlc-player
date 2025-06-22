@@ -135,14 +135,12 @@ export const VLCPlayer = ({
   };
 
   /** android only */
-  const onVideoSeek = (event: NativeSyntheticEvent<AndroidVideoSeekEvent>) => {
-    // eslint-disable-next-line no-console
-    console.warn('WARN: onVideoSeek in currently not implemented', event);
+  const onVideoSeek = (_event: NativeSyntheticEvent<AndroidVideoSeekEvent>) => {
+    // console.warn('WARN: onVideoSeek in currently not implemented', event);
   };
 
-  const onVideoStateChange = (event: NativeSyntheticEvent<AndroidVideoStateChangeEvent | AndroidLayoutVideoStateChangeEvent>) => {
-    // eslint-disable-next-line no-console
-    console.warn('WARN: onVideoStateChange in currently not implemented', event);
+  const onVideoStateChange = (_event: NativeSyntheticEvent<AndroidVideoStateChangeEvent | AndroidLayoutVideoStateChangeEvent>) => {
+    // console.warn('WARN: onVideoStateChange in currently not implemented', event);
   };
 
   return (
