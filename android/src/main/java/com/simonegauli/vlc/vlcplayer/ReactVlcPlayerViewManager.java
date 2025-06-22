@@ -1,4 +1,4 @@
-package com.yuanzhou.vlc.vlcplayer;
+package com.simonegauli.vlc.vlcplayer;
 
 import android.content.Context;
 import android.text.TextUtils;
