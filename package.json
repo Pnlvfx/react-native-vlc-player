@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pnlvfx/react-native-vlc-player.git"
+    "url": "https://github.com/Pnlvfx/react-native-vlc-player.git"
   },
   "keywords": [
     "vlc",
@@ -25,14 +25,15 @@
   "types": "dist/vlc-player.d.ts",
   "module": "dist/vlc-player.js",
   "scripts": {
-    "tsc": "tsc --noEmit true",
+    "tsc": "tsc --noEmit",
     "unused": "node tools/unused.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint",
     "build": "rimraf dist && eslint && tsc -p tsconfig.build.json",
     "prepack": "yarn build",
     "prepare": "husky",
-    "update": "node tools/update.ts && yarn upgrade-interactive"
+    "update": "node tools/update.ts && yarn upgrade-interactive",
+    "publish": "node tools/publish.ts"
   },
   "files": [
     "dist",
@@ -48,16 +49,13 @@
     "url": "https://github.com/Pnlvfx/react-native-vlc-player/issues"
   },
   "homepage": "https://github.com/Pnlvfx/react-native-vlc-player#readme",
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
-  },
   "devDependencies": {
     "@expo/config-plugins": "^7.2.2",
-    "@goatjs/node": "github:Pnlvfx/goatjs#workspace=@goatjs/node",
-    "@goatjs/rimraf": "github:Pnlvfx/goatjs#workspace=@goatjs/rimraf",
-    "@goatjs/ts-unused-exports": "github:Pnlvfx/goatjs#workspace=@goatjs/ts-unused-exports",
-    "@goatjs/updater": "github:Pnlvfx/goatjs#workspace=@goatjs/updater",
+    "@goatjs/dev": "^1.0.8",
+    "@goatjs/git": "^1.0.8",
+    "@goatjs/node": "1.0.5",
+    "@goatjs/rimraf": "1.0.5",
+    "@goatjs/ts-unused-exports": "^1.0.5",
     "@react-native/eslint-config": "0.80.0",
     "@types/react": "^19.1.8",
     "eslint": "8.56.0",
@@ -66,6 +64,10 @@
     "react": "^19.1.0",
     "react-native": "^0.80.0",
     "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
   },
   "packageManager": "yarn@4.9.2+sha512.1fc009bc09d13cfd0e19efa44cbfc2b9cf6ca61482725eb35bbc5e257e093ebf4130db6dfe15d604ff4b79efd8e1e8e99b25fa7d0a6197c9f9826358d4d65c3c"
 }

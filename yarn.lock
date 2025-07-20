@@ -783,44 +783,59 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@goatjs/node@github:Pnlvfx/goatjs#workspace=@goatjs/node":
-  version: 2025.1.30
-  resolution: "@goatjs/node@https://github.com/Pnlvfx/goatjs.git#workspace=%40goatjs%2Fnode&commit=1377030598390618cc4497c341a38f4bd4cb5508"
+"@goatjs/dev@npm:^1.0.8":
+  version: 1.0.8
+  resolution: "@goatjs/dev@npm:1.0.8"
+  peerDependencies:
+    "@goatjs/git": "*"
+    "@goatjs/node": "*"
+  checksum: 10c0/7ee2c1eedd27824707fbcc39c6f9da3b597f438d25e291badb710e7d54f6164edd81fcaf60f538348cc51db7c9397971c0a982ed43a4eb6cfdc9905bfc23e275
+  languageName: node
+  linkType: hard
+
+"@goatjs/git@npm:^1.0.8":
+  version: 1.0.8
+  resolution: "@goatjs/git@npm:1.0.8"
+  peerDependencies:
+    "@goatjs/node": "*"
+  checksum: 10c0/e7d67c91105d2813e44a6d0c8cbb719b0820c846d2dcfd3fdd7e20b95ccaf96b4524826667fb1c5f33425bdc55f9d376997b244c06ecaa710d589128e34b0bab
+  languageName: node
+  linkType: hard
+
+"@goatjs/node@npm:1.0.5":
+  version: 1.0.5
+  resolution: "@goatjs/node@npm:1.0.5"
   dependencies:
     sanitize-filename: "npm:1.6.3"
   peerDependencies:
     mime-types: "*"
+    prettier: "*"
   peerDependenciesMeta:
     mime-types:
       optional: true
-  checksum: 10c0/05c9dbbb91c03b60af7e6490ff43bac70c3c3377c169be9771bd53fba176494226930d2d78438702220509a9188ae16596cc98b36160172cfa0472ccad987762
+    prettier:
+      optional: true
+  checksum: 10c0/d319d1c78e905e8df42d2a6914f7cb8050a350d4ea6e57965bacaa80985838aaed8af5fbeda67edda7803664b934189fee13f6ce5ffbe4250b5909af4f3a62db
   languageName: node
   linkType: hard
 
-"@goatjs/rimraf@github:Pnlvfx/goatjs#workspace=@goatjs/rimraf":
-  version: 2025.1.30
-  resolution: "@goatjs/rimraf@https://github.com/Pnlvfx/goatjs.git#workspace=%40goatjs%2Frimraf&commit=1377030598390618cc4497c341a38f4bd4cb5508"
+"@goatjs/rimraf@npm:1.0.5":
+  version: 1.0.5
+  resolution: "@goatjs/rimraf@npm:1.0.5"
   bin:
     rimraf: dist/cli/rimraf.js
-  checksum: 10c0/bf4f56e00d6bb598053533e81f982270e931641d9f7e3164c0b72259309176ea57b44b42e3558855932c2dedf060772fbd1f4d827e650fd581c40b9252951dff
+  checksum: 10c0/4a13d2bc7d8a906af2b79029b3d5aa7f20476e2e131c1b34d7962c1ab21e6664260b20481301666c8213f99d5805600b6c05b90d54b08e22b261a4d762f25658
   languageName: node
   linkType: hard
 
-"@goatjs/ts-unused-exports@github:Pnlvfx/goatjs#workspace=@goatjs/ts-unused-exports":
-  version: 2025.3.3
-  resolution: "@goatjs/ts-unused-exports@https://github.com/Pnlvfx/goatjs.git#workspace=%40goatjs%2Fts-unused-exports&commit=1377030598390618cc4497c341a38f4bd4cb5508"
+"@goatjs/ts-unused-exports@npm:^1.0.5":
+  version: 1.0.7
+  resolution: "@goatjs/ts-unused-exports@npm:1.0.7"
   dependencies:
     ts-unused-exports: "npm:^11.0.1"
   peerDependencies:
     typescript: "*"
-  checksum: 10c0/0b0580d90571219ac84d80f434de70fa1a7bd444a521d3d794f99c268d0a0247e781ad433d4376ed0bcde076b3061c8a8da5368a152bed165cb7b8344ae67784
-  languageName: node
-  linkType: hard
-
-"@goatjs/updater@github:Pnlvfx/goatjs#workspace=@goatjs/updater":
-  version: 2025.1.30
-  resolution: "@goatjs/updater@https://github.com/Pnlvfx/goatjs.git#workspace=%40goatjs%2Fupdater&commit=1377030598390618cc4497c341a38f4bd4cb5508"
-  checksum: 10c0/da03a103697bf749766957eee5b6e57873d4cfe9646c6a3ed949d66a5cb520dfa247f8a69471b370da752a7e7413d311a3de0d7f71acfc700ef6d18ae1274106
+  checksum: 10c0/c55771c8e11735ba3390ba3bd32a964e9ac9ba19c48a93ba06a4828533a3e8d35c54c6ed3aba8315af0bc5969febf534f5c34de856587908db9341ce1fe49c25
   languageName: node
   linkType: hard
 
@@ -5354,10 +5369,11 @@ __metadata:
   resolution: "react-native-vlc-player@workspace:."
   dependencies:
     "@expo/config-plugins": "npm:^7.2.2"
-    "@goatjs/node": "github:Pnlvfx/goatjs#workspace=@goatjs/node"
-    "@goatjs/rimraf": "github:Pnlvfx/goatjs#workspace=@goatjs/rimraf"
-    "@goatjs/ts-unused-exports": "github:Pnlvfx/goatjs#workspace=@goatjs/ts-unused-exports"
-    "@goatjs/updater": "github:Pnlvfx/goatjs#workspace=@goatjs/updater"
+    "@goatjs/dev": "npm:^1.0.8"
+    "@goatjs/git": "npm:^1.0.8"
+    "@goatjs/node": "npm:1.0.5"
+    "@goatjs/rimraf": "npm:1.0.5"
+    "@goatjs/ts-unused-exports": "npm:^1.0.5"
     "@react-native/eslint-config": "npm:0.80.0"
     "@types/react": "npm:^19.1.8"
     eslint: "npm:8.56.0"
