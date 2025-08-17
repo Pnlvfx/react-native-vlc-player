@@ -1,11 +1,9 @@
-import { updateGitDeps } from '@goatjs/dev/update';
-
-const packages = {
-  'eslint-plugin-react-compiler': 'experimental',
-};
+import { updateUnversionedDeps } from '@goatjs/dbz/update';
 
 const run = async () => {
-  await updateGitDeps(packages);
+  await updateUnversionedDeps({
+    'eslint-plugin-react-compiler': 'experimental',
+  });
 };
 
 void run();
