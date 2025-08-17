@@ -21,9 +21,11 @@
     "media",
     "video"
   ],
-  "main": "dist/vlc-player.js",
-  "types": "dist/vlc-player.d.ts",
-  "module": "dist/vlc-player.js",
+  "exports": {
+    "types": "./dist/vlc-player.d.ts",
+    "import": "./dist/vlc-player.js",
+    "require": "./dist/vlc-player.js"
+  },
   "scripts": {
     "tsc": "tsc --noEmit",
     "unused": "node tools/unused.ts",
