@@ -1,7 +1,7 @@
 {
   "name": "@goatjs/react-native-vlc-player",
   "description": "React native media player for video streaming and playing. Supports RTSP,RTMP and other protocols supported by VLC player",
-  "version": "1.0.99",
+  "version": "1.1.0",
   "author": {
     "email": "simonegauli@gmail.com",
     "name": "Simone Gauli"
