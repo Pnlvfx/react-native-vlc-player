@@ -8,7 +8,7 @@
 
 @class RCTEventDispatcher;
 
-@interface RCTVLCPlayer : UIView <VLCMediaPlayerDelegate>
+@interface RCTVLCPlayer : UIView <VLCMediaPlayerDelegate, VLCCustomDialogRendererProtocol>
 
 @property (nonatomic, copy) RCTBubblingEventBlock onVideoProgress;
 @property (nonatomic, copy) RCTBubblingEventBlock onVideoPaused;
@@ -22,6 +22,8 @@
 @property (nonatomic, copy) RCTBubblingEventBlock onVideoLoad;
 @property (nonatomic, copy) RCTBubblingEventBlock onRecordingState;
 @property (nonatomic, copy) RCTBubblingEventBlock onSnapshot;
+@property (nonatomic, strong) VLCDialogProvider *dialogProvider;
+@property (nonatomic, assign) BOOL acceptInvalidCertificates;
 
 - (instancetype)initWithEventDispatcher:(id<RCTEventDispatcherProtocol>)eventDispatcher NS_DESIGNATED_INITIALIZER;
 

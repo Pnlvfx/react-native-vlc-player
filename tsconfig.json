@@ -2,7 +2,7 @@
   "extends": ["@react-native/typescript-config", "@goatjs/typescript-config/base/tsconfig.json"],
   "compilerOptions": {
     "types": null,
-    "customConditions": ["react-native-strict-api"],
+    // "customConditions": ["react-native-strict-api"],
     "outDir": "dist",
     "jsx": "react-jsx",
     "lib": ["ESNext"],

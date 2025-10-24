@@ -5,6 +5,7 @@ import type { VideoAspectRatio } from './shared';
 
 export type NativePlayerProps = (VLCPlayerIosProps | VLCPlayerAndroidProps) & {
   style: StyleProp<ViewStyle>;
+  acceptInvalidCertificates: boolean;
 };
 
 export interface NativePlayerCommands {
