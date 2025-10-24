@@ -5,6 +5,7 @@ import type { RecordingStateEvent, SimpleCallbackEventProps, VideoInfo, VideoSna
 import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
 import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
+import type ReactNativeElement from 'react-native/types_generated/src/private/webapis/dom/nodes/ReactNativeElement';
 
 const RCTVLCPlayer = requireNativeComponent<NativePlayerProps>('RCTVLCPlayer');
 
@@ -45,7 +46,7 @@ export const VLCPlayer = ({
   clear,
   onRecordingCreated,
 }: VLCPlayerProps) => {
-  const playerRef = useRef<Component<NativePlayerProps> & NativeMethods>(null);
+  const playerRef = useRef<ReactNativeElement>(null);
   const lastRecording = useRef<string>(undefined);
   const resolvedAssetSource = useMemo(() => resolveAssetSource({ input: source, autoplay, repeat }), [source, autoplay, repeat]);
 

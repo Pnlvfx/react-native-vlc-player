@@ -659,7 +659,9 @@ __metadata:
     "@goatjs/node": "npm:^1.29.0"
     "@goatjs/rimraf": "npm:1.29.0"
     "@goatjs/ts-unused-exports": "npm:^1.29.0"
+    "@goatjs/typescript-config": "npm:^1.29.0"
     "@react-native/eslint-config": "npm:0.82.1"
+    "@react-native/typescript-config": "npm:^0.82.1"
     "@types/react": "npm:^19.2.2"
     eslint: "npm:8.57.1"
     eslint-plugin-react-compiler: "npm:0.0.0-experimental-6cef588-20250815"
@@ -690,6 +692,15 @@ __metadata:
   peerDependencies:
     typescript: "*"
   checksum: 10c0/d0a51a1012382695cd3877556cd4d13e8714fda4461ac056b62ebfdcdef50f95f914c2270c034991928d1e7b30786e428a130f1f99af771d988cffdebcf0ce81
+  languageName: node
+  linkType: hard
+
+"@goatjs/typescript-config@npm:^1.29.0":
+  version: 1.29.0
+  resolution: "@goatjs/typescript-config@npm:1.29.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Ftypescript-config%2F-%2F%40goatjs%2Ftypescript-config-1.29.0.tgz"
+  peerDependencies:
+    typescript: "*"
+  checksum: 10c0/ab0ac23a6b2a1529ac416db648018c36b9b8597ba4cd7dd0d0f6b2b2b4dc0e51637603e720bdaa250d0b9eed55f5c3f2021f2f88327fe80f0599276c018f5ff8
   languageName: node
   linkType: hard
 
@@ -1105,6 +1116,13 @@ __metadata:
   version: 0.82.1
   resolution: "@react-native/normalize-colors@npm:0.82.1"
   checksum: 10c0/9c5e84fa6ab6ba1323305ba928c364ae2442d9edea21dda06f2c9267371a509d3799bc06646056c906e078102f6e74dc2aac7a56c83fa5daa43998508701a553
+  languageName: node
+  linkType: hard
+
+"@react-native/typescript-config@npm:^0.82.1":
+  version: 0.82.1
+  resolution: "@react-native/typescript-config@npm:0.82.1"
+  checksum: 10c0/9f6c1501bf3961d0da7a4bb13fc3860d3f619e9b5446d3eb4735873ef9cfc316c349e765503deca2331d7c600cf29eaaf30816f6ee98afc1ae43e9f5abc59447
   languageName: node
   linkType: hard
 
