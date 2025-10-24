@@ -9,13 +9,13 @@ interface Props {
 
 export const resolveAssetSource = ({ input, autoplay, repeat }: Props) => {
   const source = Image.resolveAssetSource(input);
-  const uri = source.uri.match(/^\//) ? `file://${source.uri}` : source.uri;
-  const isAsset = !!uri.match(/^(assets-library|file|content|ms-appx|ms-appdata):/);
-  let isNetwork = !!uri.match(/^https?:/);
+  const uri = /^\//.exec(source.uri) ? `file://${source.uri}` : source.uri;
+  const isAsset = !!/^(assets-library|file|content|ms-appx|ms-appdata):/.exec(uri);
+  let isNetwork = !!/^https?:/.exec(uri);
   if (!isAsset) {
     isNetwork = true;
   }
-  if (uri.match(/^\//)) {
+  if (/^\//.exec(uri)) {
     isNetwork = false;
   }
 

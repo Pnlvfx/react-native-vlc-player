@@ -413,6 +413,11 @@ static NSString *const playbackRate = @"rate";
     [_player stopRecording];
 }
 
+- (void)stopPlayer
+{
+   [_player stop];
+}
+
 - (void)snapshot:(NSString*)path
 {
     @try {

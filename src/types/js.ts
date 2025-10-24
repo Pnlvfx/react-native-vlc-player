@@ -84,6 +84,10 @@ export interface VLCPlayerCommands {
   changeVideoAspectRatio: (ratio: VideoAspectRatio) => void;
   startRecording: (path: string) => void;
   stopRecording: () => void;
+  /**
+   * Stop playing
+   */
+  stopPlayer: () => void;
   snapshot: (path: string) => void;
 }
 

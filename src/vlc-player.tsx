@@ -84,6 +84,11 @@ export const VLCPlayer = ({
         if (!command) throw new Error('Command snapshot not found on the native side.');
         UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, [path]);
       },
+      stopPlayer: () => {
+        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['stopPlayer'];
+        if (!command) throw new Error('Command stopPlayer not found on the native side.');
+        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, []);
+      },
     }),
     [setNativeProps],
   );
