@@ -52,17 +52,17 @@
   "homepage": "https://github.com/Pnlvfx/react-native-vlc-player#readme",
   "devDependencies": {
     "@expo/config-plugins": "^7.9.2",
-    "@goatjs/dbz": "^1.21.0",
-    "@goatjs/node": "^1.21.0",
-    "@goatjs/rimraf": "1.21.0",
-    "@goatjs/ts-unused-exports": "^1.21.0",
-    "@react-native/eslint-config": "0.82.0",
+    "@goatjs/dbz": "^1.29.0",
+    "@goatjs/node": "^1.29.0",
+    "@goatjs/rimraf": "1.29.0",
+    "@goatjs/ts-unused-exports": "^1.29.0",
+    "@react-native/eslint-config": "0.82.1",
     "@types/react": "^19.2.2",
     "eslint": "8.57.1",
     "eslint-plugin-react-compiler": "0.0.0-experimental-6cef588-20250815",
     "prettier": "^3.6.2",
     "react": "^19.1.1",
-    "react-native": "^0.82.0",
+    "react-native": "^0.82.1",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
