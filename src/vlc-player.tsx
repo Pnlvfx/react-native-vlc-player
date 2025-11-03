@@ -4,7 +4,7 @@ import type { AndroidLayoutVideoStateChangeEvent, AndroidVideoOpenEvent, Android
 import type { RecordingStateEvent, SimpleCallbackEventProps, VideoInfo, VideoSnapshotEvent } from './types/shared';
 import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
-import { Component, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
+import { Component, useImperativeHandle, useMemo, useRef } from 'react';
 
 const RCTVLCPlayer = requireNativeComponent<NativePlayerProps>('RCTVLCPlayer');
 
@@ -50,9 +50,9 @@ export const VLCPlayer = ({
   const lastRecording = useRef<string>(undefined);
   const resolvedAssetSource = useMemo(() => resolveAssetSource({ input: source, autoplay, repeat }), [source, autoplay, repeat]);
 
-  const setNativeProps = useCallback((props: Partial<NativePlayerCommands>) => {
+  const setNativeProps = (props: Partial<NativePlayerCommands>) => {
     playerRef.current?.setNativeProps(props);
-  }, []);
+  };
 
   useImperativeHandle(
     ref,
@@ -79,18 +79,18 @@ export const VLCPlayer = ({
         if (!command) throw new Error('Command stopRecording not found on the native side.');
         UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, []);
       },
-      snapshot: path => {
-        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['snapshot'];
-        if (!command) throw new Error('Command snapshot not found on the native side.');
-        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, [path]);
-      },
       stopPlayer: () => {
         const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['stopPlayer'];
         if (!command) throw new Error('Command stopPlayer not found on the native side.');
         UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, []);
       },
+      snapshot: path => {
+        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['snapshot'];
+        if (!command) throw new Error('Command snapshot not found on the native side.');
+        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, [path]);
+      },
     }),
-    [setNativeProps],
+    [],
   );
 
   //** Event handlers */
