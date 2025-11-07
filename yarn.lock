@@ -623,38 +623,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@goatjs/core@npm:1.39.0":
-  version: 1.39.0
-  resolution: "@goatjs/core@npm:1.39.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Fcore%2F-%2F%40goatjs%2Fcore-1.39.0.tgz"
-  checksum: 10c0/6bd1ac95a71da560dab735b08729c46c5423bebda6804a0dfa8055e3ecef24cab4794251feff7c55686b1da47ef708ab4e3b853d9d989f780a545c907fae087c
+"@goatjs/core@npm:1.40.0":
+  version: 1.40.0
+  resolution: "@goatjs/core@npm:1.40.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Fcore%2F-%2F%40goatjs%2Fcore-1.40.0.tgz"
+  checksum: 10c0/1acfc9f4448fdf2a9973d344ea98d5a8ade7e5cb3b3355b3c4528d937a17fdc579f107a0848e4cf9181912a574ad9e4e6ab1e56745b6a9a6e7c7be749ce0d3f0
   languageName: node
   linkType: hard
 
-"@goatjs/dbz@npm:^1.39.0":
-  version: 1.39.0
-  resolution: "@goatjs/dbz@npm:1.39.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Fdbz%2F-%2F%40goatjs%2Fdbz-1.39.0.tgz"
+"@goatjs/dbz@npm:^1.40.0":
+  version: 1.40.0
+  resolution: "@goatjs/dbz@npm:1.40.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Fdbz%2F-%2F%40goatjs%2Fdbz-1.40.0.tgz"
   dependencies:
-    "@goatjs/node": "npm:1.39.0"
-    "@goatjs/rimraf": "npm:1.39.0"
+    "@goatjs/node": "npm:1.40.0"
+    "@goatjs/rimraf": "npm:1.40.0"
     yargs: "npm:^18.0.0"
   bin:
     dbz: dist/cli.js
-  checksum: 10c0/c0f5fc42adefd08c4c4e40d51ee959fce03ea1609d9c23b536ba629a17da88b5d63a28fa49ab4f9ecd831c4519124c4d744ba1d4ad0ef1ba572dbcd144692f21
+  checksum: 10c0/e9f29c1fad24ad47c6f04b58397c93616393dc78b824c1f5b656a1e3e0c74f968ff72392945c636ec205aec3cb9d954e787ba35dd573681aa5ec8f51a8c9d747
   languageName: node
   linkType: hard
 
-"@goatjs/node@npm:1.39.0, @goatjs/node@npm:^1.39.0":
-  version: 1.39.0
-  resolution: "@goatjs/node@npm:1.39.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Fnode%2F-%2F%40goatjs%2Fnode-1.39.0.tgz"
+"@goatjs/node@npm:1.40.0, @goatjs/node@npm:^1.40.0":
+  version: 1.40.0
+  resolution: "@goatjs/node@npm:1.40.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Fnode%2F-%2F%40goatjs%2Fnode-1.40.0.tgz"
   dependencies:
-    "@goatjs/core": "npm:1.39.0"
+    "@goatjs/core": "npm:1.40.0"
     sanitize-filename: "npm:1.6.3"
   peerDependencies:
     prettier: "*"
   peerDependenciesMeta:
     prettier:
       optional: true
-  checksum: 10c0/1bbc7ac693de2ba70048fcc7833b3c8ba279d5b81085234e8ed7d57cea3dabdedbece84e31321f7481ff58957952760fd8980457102de9c21a89461c4cbcff27
+  checksum: 10c0/0a96c153af4f9f4b61a3a8901ef5267e29b17b38dcd0ebe90e3967582ea37b511e417be6e8430fcc4db2269b0b1b0d07214d30caa11621379624c2af6516be57
   languageName: node
   linkType: hard
 
@@ -663,11 +663,11 @@ __metadata:
   resolution: "@goatjs/react-native-vlc-player@workspace:."
   dependencies:
     "@expo/config-plugins": "npm:^7.9.2"
-    "@goatjs/dbz": "npm:^1.39.0"
-    "@goatjs/node": "npm:^1.39.0"
-    "@goatjs/rimraf": "npm:1.39.0"
-    "@goatjs/ts-unused-exports": "npm:^1.39.0"
-    "@goatjs/typescript-config": "npm:^1.39.0"
+    "@goatjs/dbz": "npm:^1.40.0"
+    "@goatjs/node": "npm:^1.40.0"
+    "@goatjs/rimraf": "npm:1.40.0"
+    "@goatjs/ts-unused-exports": "npm:^1.40.0"
+    "@goatjs/typescript-config": "npm:^1.40.0"
     "@react-native/eslint-config": "npm:0.82.1"
     "@react-native/typescript-config": "npm:^0.82.1"
     "@types/react": "npm:^19.2.2"
@@ -683,32 +683,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@goatjs/rimraf@npm:1.39.0":
-  version: 1.39.0
-  resolution: "@goatjs/rimraf@npm:1.39.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Frimraf%2F-%2F%40goatjs%2Frimraf-1.39.0.tgz"
+"@goatjs/rimraf@npm:1.40.0":
+  version: 1.40.0
+  resolution: "@goatjs/rimraf@npm:1.40.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Frimraf%2F-%2F%40goatjs%2Frimraf-1.40.0.tgz"
   bin:
     rimraf: dist/cli/rimraf.js
-  checksum: 10c0/bdc85c64b0b8c6b02bacd8e2fd502991fbf7d5c8f0e00665da61d467ffdd5acbeb643c5b4df51c94f20432b688999b704a63960d8579c260aba2f0a32e250796
+  checksum: 10c0/b17622e0c9dafb7a08388e56f9d992ff736b701a8fea88bb8c44633b32cb4ccc0cae13b24fc4a9aa76f12cf20d2e86ff3fb64a96955cd133cd8b2a088ede9eb2
   languageName: node
   linkType: hard
 
-"@goatjs/ts-unused-exports@npm:^1.39.0":
-  version: 1.39.0
-  resolution: "@goatjs/ts-unused-exports@npm:1.39.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Fts-unused-exports%2F-%2F%40goatjs%2Fts-unused-exports-1.39.0.tgz"
+"@goatjs/ts-unused-exports@npm:^1.40.0":
+  version: 1.40.0
+  resolution: "@goatjs/ts-unused-exports@npm:1.40.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Fts-unused-exports%2F-%2F%40goatjs%2Fts-unused-exports-1.40.0.tgz"
   dependencies:
     ts-unused-exports: "npm:^11.0.1"
   peerDependencies:
     typescript: "*"
-  checksum: 10c0/a227a06feb3037543579db63245bec74b8bceca4a14faa191493320b99f26b55d1564a5b92939e259e594bb49eb0e57a1af718d83b2628a1a9beade8c4dd579b
+  checksum: 10c0/9f2335a429a22f6a4fb85ffea6383ab22cf45852cce172d53fc462cba1e6edfa5f23b605fe959705928c65e6140fc3d31057480d973b5061e89ee7cb40566e48
   languageName: node
   linkType: hard
 
-"@goatjs/typescript-config@npm:^1.39.0":
-  version: 1.39.0
-  resolution: "@goatjs/typescript-config@npm:1.39.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Ftypescript-config%2F-%2F%40goatjs%2Ftypescript-config-1.39.0.tgz"
+"@goatjs/typescript-config@npm:^1.40.0":
+  version: 1.40.0
+  resolution: "@goatjs/typescript-config@npm:1.40.0::__archiveUrl=https%3A%2F%2Feurope-west8-npm.pkg.dev%2Fopen-gto-2%2Fgoat%2F%40goatjs%2Ftypescript-config%2F-%2F%40goatjs%2Ftypescript-config-1.40.0.tgz"
   peerDependencies:
     typescript: "*"
-  checksum: 10c0/918956f5cced70bd46fafb8dc09cfbf4372add120ff22ec397902c9c4cd39c683cde2b21abc6e134be8416e8f120de7a850270a5647302c46df68cbddc2a11c4
+  checksum: 10c0/ad43f7e6e26f6450e54904015a983498da220ded8d77492fbbb6bf9aac55def6fa12ee701b91f1fda61a337e0d4643e912f959c3cdd52204ef16c013770778f5
   languageName: node
   linkType: hard
 

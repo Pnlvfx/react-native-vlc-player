@@ -9,7 +9,7 @@ export interface VideoSnapshotEvent extends SimpleCallbackEventProps {
   error?: string;
 }
 
-interface Track {
+export interface Track {
   /**
    * Track identification
    */

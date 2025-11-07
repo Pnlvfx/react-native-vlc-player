@@ -195,4 +195,4 @@ const { baseStyle } = StyleSheet.create({
 });
 
 export type * from './types/js';
-export type { VideoInfo, VideoSnapshotEvent } from './types/shared';
+export type { VideoInfo, VideoSnapshotEvent, Track } from './types/shared';
