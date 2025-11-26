@@ -18,6 +18,7 @@
     "target": "ESNext",
     "declaration": true,
     "declarationMap": true,
+    "emitDeclarationOnly": true,
     "sourceMap": true,
     "allowJs": true,
     "checkJs": true
