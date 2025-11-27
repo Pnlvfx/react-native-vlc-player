@@ -23,5 +23,5 @@
     "allowJs": true,
     "checkJs": true
   },
-  "include": ["src", "tools"]
+  "include": ["src", "tools", "vita.config.ts"]
 }
