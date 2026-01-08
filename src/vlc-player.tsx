@@ -2,7 +2,7 @@ import type { VLCPlayerProps, VLCStoppedEvent } from './types/js';
 import type { NativePlayerCommands, NativePlayerProps } from './types/native';
 import type { AndroidLayoutVideoStateChangeEvent, AndroidVideoOpenEvent, AndroidVideoSeekEvent, AndroidVideoStateChangeEvent } from './types/android';
 import type { RecordingStateEvent, SimpleCallbackEventProps, VideoInfo, VideoSnapshotEvent } from './types/shared';
-import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type NativeMethods, type NativeSyntheticEvent } from 'react-native';
+import { findNodeHandle, requireNativeComponent, StyleSheet, UIManager, type HostInstance, type NativeSyntheticEvent } from 'react-native';
 import { resolveAssetSource } from './source';
 import { Component, useImperativeHandle, useRef } from 'react';
 
@@ -15,6 +15,23 @@ function createEventHandler<T>(callback: ((event: T) => void) | undefined) {
       callback(event.nativeEvent);
     }
   };
+}
+
+interface RCTVLCPlayerCommands {
+  startRecording: number;
+  stopRecording: number;
+  stopPlayer: number;
+  snapshot: number;
+}
+
+interface RCTVLCPlayerViewManagerConfig {
+  Commands: RCTVLCPlayerCommands;
+}
+
+function getVLCCommands(): RCTVLCPlayerCommands {
+  const config = UIManager.getViewManagerConfig('RCTVLCPlayer') as RCTVLCPlayerViewManagerConfig | null;
+  if (!config?.Commands) throw new Error('RCTVLCPlayer native commands are not available.');
+  return config.Commands;
 }
 
 export const VLCPlayer = ({
@@ -46,7 +63,7 @@ export const VLCPlayer = ({
   acceptInvalidCertificates,
   onRecordingCreated,
 }: VLCPlayerProps) => {
-  const playerRef = useRef<Component<NativePlayerProps> & NativeMethods>(null);
+  const playerRef = useRef<Component<NativePlayerProps> & HostInstance>(null);
   const lastRecording = useRef<string>(undefined);
   const resolvedAssetSource = resolveAssetSource({ input: source, autoplay, repeat });
 
@@ -70,24 +87,28 @@ export const VLCPlayer = ({
         setNativeProps({ videoAspectRatio: ratio });
       },
       startRecording: (path: string) => {
-        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['startRecording'];
-        if (!command) throw new Error('Command startRecording not found on the native side.');
-        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, [path]);
+        const commands = getVLCCommands();
+        const playerNode = findNodeHandle(playerRef.current);
+        if (!playerNode) throw new Error('Player node not found!');
+        UIManager.dispatchViewManagerCommand(playerNode, commands.startRecording, [path]);
       },
       stopRecording: () => {
-        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['stopRecording'];
-        if (!command) throw new Error('Command stopRecording not found on the native side.');
-        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, []);
+        const commands = getVLCCommands();
+        const playerNode = findNodeHandle(playerRef.current);
+        if (!playerNode) throw new Error('Player node not found!');
+        UIManager.dispatchViewManagerCommand(playerNode, commands.stopRecording, []);
       },
       stopPlayer: () => {
-        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['stopPlayer'];
-        if (!command) throw new Error('Command stopPlayer not found on the native side.');
-        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, []);
+        const commands = getVLCCommands();
+        const playerNode = findNodeHandle(playerRef.current);
+        if (!playerNode) throw new Error('Player node not found!');
+        UIManager.dispatchViewManagerCommand(playerNode, commands.stopPlayer, []);
       },
       snapshot: path => {
-        const command = UIManager.getViewManagerConfig('RCTVLCPlayer').Commands['snapshot'];
-        if (!command) throw new Error('Command snapshot not found on the native side.');
-        UIManager.dispatchViewManagerCommand(findNodeHandle(playerRef.current), command, [path]);
+        const commands = getVLCCommands();
+        const playerNode = findNodeHandle(playerRef.current);
+        if (!playerNode) throw new Error('Player node not found!');
+        UIManager.dispatchViewManagerCommand(playerNode, commands.snapshot, [path]);
       },
     }),
     [],

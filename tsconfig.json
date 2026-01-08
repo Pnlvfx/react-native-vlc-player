@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": null,
     "noEmit": false,
-    // "customConditions": ["react-native-strict-api"],
+    "customConditions": ["react-native-strict-api"],
     "outDir": "dist",
     "jsx": "react-jsx",
     "lib": ["ESNext"],

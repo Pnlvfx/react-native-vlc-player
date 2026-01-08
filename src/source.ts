@@ -9,6 +9,7 @@ interface Props {
 
 export const resolveAssetSource = ({ input, autoplay, repeat }: Props) => {
   const source = Image.resolveAssetSource(input);
+  if (!source?.uri) throw new Error('URI is required');
   const uri = /^\//.exec(source.uri) ? `file://${source.uri}` : source.uri;
   const isAsset = !!/^(assets-library|file|content|ms-appx|ms-appdata):/.exec(uri);
   let isNetwork = !!/^https?:/.exec(uri);
