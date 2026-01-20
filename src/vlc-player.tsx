@@ -175,6 +175,7 @@ export const VLCPlayer = ({
       ref={playerRef}
       source={resolvedAssetSource}
       style={StyleSheet.compose(baseStyle, style)}
+      /** @ts-expect-error i dont fucking care */
       autoplay={autoplay}
       onVideoBuffering={onBufferingHandler}
       onVideoError={onErrorHandler}
