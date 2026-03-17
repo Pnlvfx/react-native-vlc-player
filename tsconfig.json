@@ -1,5 +1,6 @@
 {
   "extends": ["@react-native/typescript-config", "@goatjs/typescript-config/base/tsconfig.json"],
+  "include": ["src", "tools", "vita.config.ts", "eslint.config.mjs", "app.plugin.js"],
   "compilerOptions": {
     "types": null,
     "noEmit": false,
@@ -22,6 +23,5 @@
     "sourceMap": true,
     "allowJs": true,
     "checkJs": true
-  },
-  "include": ["src", "tools", "vita.config.ts"]
+  }
 }

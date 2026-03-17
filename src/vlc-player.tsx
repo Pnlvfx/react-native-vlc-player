@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import type { VLCPlayerProps, VLCStoppedEvent } from './types/js';
 import type { NativePlayerCommands, NativePlayerProps } from './types/native';
 import type { AndroidLayoutVideoStateChangeEvent, AndroidVideoOpenEvent, AndroidVideoSeekEvent, AndroidVideoStateChangeEvent } from './types/android';
@@ -74,40 +75,40 @@ export const VLCPlayer = ({
   useImperativeHandle(
     ref,
     () => ({
-      seek: pos => {
+      seek: (pos) => {
         setNativeProps({ seek: pos });
       },
-      resume: isResume => {
+      resume: (isResume) => {
         setNativeProps({ resume: isResume });
       },
-      autoAspectRatio: isAuto => {
+      autoAspectRatio: (isAuto) => {
         setNativeProps({ autoAspectRatio: isAuto });
       },
-      changeVideoAspectRatio: ratio => {
+      changeVideoAspectRatio: (ratio) => {
         setNativeProps({ videoAspectRatio: ratio });
       },
       startRecording: (path: string) => {
         const commands = getVLCCommands();
         const playerNode = findNodeHandle(playerRef.current);
-        if (!playerNode) throw new Error('Player node not found!');
+        if (typeof playerNode !== 'number') throw new Error('Player node not found!');
         UIManager.dispatchViewManagerCommand(playerNode, commands.startRecording, [path]);
       },
       stopRecording: () => {
         const commands = getVLCCommands();
         const playerNode = findNodeHandle(playerRef.current);
-        if (!playerNode) throw new Error('Player node not found!');
+        if (typeof playerNode !== 'number') throw new Error('Player node not found!');
         UIManager.dispatchViewManagerCommand(playerNode, commands.stopRecording, []);
       },
       stopPlayer: () => {
         const commands = getVLCCommands();
         const playerNode = findNodeHandle(playerRef.current);
-        if (!playerNode) throw new Error('Player node not found!');
+        if (typeof playerNode !== 'number') throw new Error('Player node not found!');
         UIManager.dispatchViewManagerCommand(playerNode, commands.stopPlayer, []);
       },
-      snapshot: path => {
+      snapshot: (path) => {
         const commands = getVLCCommands();
         const playerNode = findNodeHandle(playerRef.current);
-        if (!playerNode) throw new Error('Player node not found!');
+        if (typeof playerNode !== 'number') throw new Error('Player node not found!');
         UIManager.dispatchViewManagerCommand(playerNode, commands.snapshot, [path]);
       },
     }),
@@ -172,40 +173,40 @@ export const VLCPlayer = ({
 
   return (
     <RCTVLCPlayer
-      ref={playerRef}
-      source={resolvedAssetSource}
-      style={StyleSheet.compose(baseStyle, style)}
+      acceptInvalidCertificates={!!acceptInvalidCertificates}
+      audioTrack={audioTrack}
       /** @ts-expect-error i dont fucking care */
+      autoAspectRatio={autoAspectRatio}
       autoplay={autoplay}
-      onVideoBuffering={onBufferingHandler}
-      onVideoError={onErrorHandler}
-      onVideoOpen={onOpenHandler}
-      onVideoLoadStart={onLoadStartHandler}
-      onVideoProgress={onProgressHandler}
-      onVideoEnd={onEndedHandler}
-      onVideoEnded={onEndedHandler}
-      onVideoStopped={onStoppedHandler}
-      onVideoPaused={onPausedHandler}
-      onVideoPlaying={onPlayingHandler}
-      onVideoLoad={onLoadHandler}
+      clear={clear}
+      muted={muted}
       onRecordingState={onRecordingState}
       onSnapshot={onSnapshotHandler}
+      onVideoBuffering={onBufferingHandler}
+      onVideoEnd={onEndedHandler}
+      onVideoEnded={onEndedHandler}
+      onVideoError={onErrorHandler}
+      onVideoLoad={onLoadHandler}
+      onVideoLoadStart={onLoadStartHandler}
+      onVideoOpen={onOpenHandler}
+      onVideoPaused={onPausedHandler}
+      onVideoPlaying={onPlayingHandler}
+      onVideoProgress={onProgressHandler}
       onVideoSeek={onVideoSeek}
       onVideoStateChange={onVideoStateChange}
-      audioTrack={audioTrack}
-      autoAspectRatio={autoAspectRatio}
-      muted={muted}
+      onVideoStopped={onStoppedHandler}
       paused={paused}
+      progressUpdateInterval={onProgress ? 250 : 0}
       rate={rate}
+      ref={playerRef}
       repeat={repeat}
       seek={seek}
+      source={resolvedAssetSource}
+      style={StyleSheet.compose(baseStyle, style)}
       subtitleUri={subtitleUri}
       textTrack={textTrack}
       videoAspectRatio={videoAspectRatio}
       volume={volume}
-      progressUpdateInterval={onProgress ? 250 : 0}
-      clear={clear}
-      acceptInvalidCertificates={!!acceptInvalidCertificates}
     />
   );
 };

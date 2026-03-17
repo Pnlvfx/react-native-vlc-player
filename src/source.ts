@@ -10,20 +10,20 @@ interface Props {
 export const resolveAssetSource = ({ input, autoplay, repeat }: Props) => {
   const source = Image.resolveAssetSource(input);
   if (!source?.uri) throw new Error('URI is required');
-  const uri = /^\//.exec(source.uri) ? `file://${source.uri}` : source.uri;
-  const isAsset = !!/^(assets-library|file|content|ms-appx|ms-appdata):/.exec(uri);
-  let isNetwork = !!/^https?:/.exec(uri);
+  const uri = source.uri.startsWith('/') ? `file://${source.uri}` : source.uri;
+  const isAsset = /^(assets-library|file|content|ms-appx|ms-appdata):/.test(uri);
+  let isNetwork = /^https?:/.test(uri);
   if (!isAsset) {
     isNetwork = true;
   }
-  if (/^\//.exec(uri)) {
+  if (uri.startsWith('/')) {
     isNetwork = false;
   }
 
   const initOptions = input.initOptions ?? [];
 
   if (repeat) {
-    const existingRepeat = initOptions.find(item => item.startsWith('--repeat') || item.startsWith('--input-repeat'));
+    const existingRepeat = initOptions.find((item) => item.startsWith('--repeat') || item.startsWith('--input-repeat'));
     if (!existingRepeat) {
       initOptions.push('--repeat');
     }

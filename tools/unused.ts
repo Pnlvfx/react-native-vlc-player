@@ -1,7 +1,7 @@
 import { findUnusedExports } from '@goatjs/ts-unused-exports';
 import { prettier } from '@goatjs/node/prettier';
 
-const unused = await findUnusedExports({ ignoreFiles: ['with-vlc-media-player.ts', 'vlc-player.tsx', 'vita.config.ts'] });
+const unused = await findUnusedExports({ ignoreFiles: ['with-vlc-media-player.ts', 'vlc-player.tsx', 'vita.config.ts', 'eslint.config.mjs'] });
 
 if (unused) {
   throw new Error(

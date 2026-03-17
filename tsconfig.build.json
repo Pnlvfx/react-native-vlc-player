@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["tools", "vita.config.ts"]
+  "exclude": ["tools", "vita.config.ts", "eslint.config.mjs", "app.plugin.js"]
 }
